@@ -1,0 +1,105 @@
+<!--
+Course details page.
+This page displays the details of a specific course.
+The content is dynamically loaded by app.js.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Detail - University Portal</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main navigation bar -->
+    <nav>
+        <div class="container">
+            <!-- Logo -->
+            <a href="index.html" class="logo"><img src="logo.png" alt="Royal African College Logo" style="height: 40px;"></a>
+            <!-- Desktop navigation links -->
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#all-courses">Courses</a></li>
+                <li id="student-chat-nav-link" class="hidden"><a href="chat.html">Chat</a></li>
+                <li id="announcements-nav-link"><a href="dashboard.html#platform-news-section">Announcements</a></li>
+                <li id="admin-nav-link" class="hidden"><a href="admin.html">Admin</a></li>
+                <li><a href="#">Contact</a></li>
+                <li id="profile-nav-link" class="hidden"><a href="profile.html">Profile</a></li>
+                <li id="auth-status"><a href="#" id="login-logout">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main content of the course details page -->
+    <main id="course-detail-page" class="container page-content">
+        <section id="course-content">
+            <h1 id="course-title">Course Title</h1>
+            <p><strong>Code:</strong> <span id="course-code-display">N/A</span></p>
+            <p><strong>Credits:</strong> <span id="course-credits-display">N/A</span></p>
+            <p><strong>Syllabus:</strong> <span id="course-syllabus">Course syllabus will appear here.</span></p>
+
+            <h2>Modules</h2>
+            <div id="modules-list">
+                <!-- Modules will be dynamically loaded here by app.js -->
+            </div>
+
+            <button id="upload-assignment-btn" class="btn">Upload Assignment (Simulated)</button>
+        </section>
+
+        <!-- Assessments section -->
+        <section id="course-assessments">
+            <h2>Assessments</h2>
+            <div id="exams-list">
+                <!-- Exams will be dynamically loaded here by app.js -->
+            </div>
+            <div id="assignments-list">
+                <!-- Assignments will be dynamically loaded here by app.js -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer section -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 University Portal. Inspired by MIT OpenCourseWare.</p>
+        </div>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo">University Portal</span>
+                    <p>Inspired by MIT OpenCourseWare</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Academic Calendar</a></li>
+                        <li><a href="#">Library</a></li>
+                        <li><a href="#">Student Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="copyright">&copy; 2024 University Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Firebase v11+ uses ES Modules -->
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="app.js"></script>
+    <!-- Back to Top Button -->
+    <button id="back-to-top-btn" title="Go to top">Top</button>
+</body>
+</html>

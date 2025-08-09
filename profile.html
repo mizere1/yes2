@@ -1,0 +1,174 @@
+<!--
+User profile page.
+This page displays the user's profile information.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - University Portal</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main navigation bar -->
+    <nav>
+        <div class="container">
+            <!-- Logo -->
+            <a href="index.html" class="logo"><img src="logo.png" alt="Royal African College Logo" style="height: 40px;"></a>
+            <!-- Desktop navigation links -->
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#all-courses">Courses</a></li>
+                <li id="student-chat-nav-link" class="hidden"><a href="chat.html">Chat</a></li>
+                <li id="announcements-nav-link"><a href="dashboard.html#platform-news-section">Announcements</a></li>
+                <li id="admin-nav-link" class="hidden"><a href="admin.html">Admin</a></li>
+                <li><a href="#">Contact</a></li>
+                <li id="profile-nav-link" class="hidden"><a href="profile.html">Profile</a></li>
+                <li id="auth-status"><a href="#" id="login-logout">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main content of the profile page -->
+    <main id="profile-page" class="container page-content">
+        <section id="user-profile">
+            <h1>User Profile</h1>
+            <div id="profile-info">
+                <div id="profile-picture-container" style="margin-bottom: 20px;">
+                    <img id="profile-picture" src="#" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid var(--mit-light-gray); display: block;">
+                </div>
+
+                <h2>Basic Information</h2>
+                <p><strong>Name:</strong> <span id="user-name">N/A</span></p>
+                <p><strong>Email:</strong> <span id="user-email">N/A</span></p>
+                <p><strong>Role:</strong> <span id="user-role">N/A</span></p>
+
+                <h2>Personal Details</h2>
+                <p><strong>Date of Birth:</strong> <span id="user-dob">N/A</span></p>
+                <p><strong>Gender:</strong> <span id="user-gender">N/A</span></p>
+
+                <h2>Contact Information</h2>
+                <p><strong>Phone:</strong> <span id="user-phone">N/A</span></p>
+                <div id="user-address-details">
+                    <p><strong>Address:</strong></p>
+                    <ul style="list-style-type: none; padding-left: 20px;">
+                        <li>Street: <span id="user-address-street">N/A</span></li>
+                        <li>City: <span id="user-address-city">N/A</span></li>
+                        <li>State: <span id="user-address-state">N/A</span></li>
+                        <li>Zip Code: <span id="user-address-zip">N/A</span></li>
+                        <li>Country: <span id="user-address-country">N/A</span></li>
+                    </ul>
+                </div>
+
+                <h2>Academic Background</h2>
+                <p><strong>Previous Education:</strong> <span id="user-prev-education">N/A</span></p>
+                <p><strong>Transcripts:</strong> <a id="user-transcripts-link" href="#" target="_blank" class="hidden">View Transcripts</a> <span id="user-transcripts-na" class="hidden">N/A</span></p>
+
+                <h2>Program Selection</h2>
+                <p><strong>Degree:</strong> <span id="user-degree">N/A</span></p>
+                <p><strong>Major:</strong> <span id="user-major">N/A</span></p>
+                <p><strong>Minor:</strong> <span id="user-minor">N/A</span></p>
+
+                <h2>Emergency Contact</h2>
+                <p><strong>Name:</strong> <span id="user-emergency-name">N/A</span></p>
+                <p><strong>Relationship:</strong> <span id="user-emergency-relationship">N/A</span></p>
+                <p><strong>Phone:</strong> <span id="user-emergency-phone">N/A</span></p>
+
+                <p><strong>Terms Accepted:</strong> <span id="user-terms-accepted">N/A</span></p>
+
+                <h2>Financials</h2>
+                <p><strong>Fees Balance:</strong> <span id="user-fees-balance">N/A</span></p>
+            </div>
+            <button id="logout-button" class="btn">Logout</button>
+            <button id="smart-learning-redirect-btn" class="btn">Smart Learning</button>
+        </section>
+
+        <section id="smart-learning-section" class="hidden">
+            <h2>Smart Learning Area</h2>
+            <p>Please enter the code provided by the college admin to access the learning materials.</p>
+            <input type="text" id="smart-learning-code" placeholder="Enter Access Code">
+            <button id="smart-learning-btn">Access Learning</button>
+
+            <div id="learning-content" class="hidden">
+                <h2>Student Progress</h2>
+                <div class="progress-bar">
+                    <div id="progressBarInner" class="progress-bar-inner"></div>
+                </div>
+                <div id="progressNote">Progress: 0%</div>
+
+                <h3>Today's Module</h3>
+                <input type="text" id="moduleInput" placeholder="Enter module name" class="hidden">
+                <button id="submitModuleBtn" class="hidden">Load Module Content</button>
+                <h4 id="dailyTaskTitle"></h4>
+                <div id="dailyExplanation">Loading detailed explanation...</div>
+
+                <h3>Related Videos</h3>
+                <div id="videos"></div>
+
+                <h3>Suggested Reading Materials</h3>
+                <div id="exerciseSection"></div>
+
+                <button id="startOverBtn" class="hidden">Start Over</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer section -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 University Portal. Inspired by MIT OpenCourseWare.</p>
+        </div>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo">University Portal</span>
+                    <p>Inspired by MIT OpenCourseWare</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Academic Calendar</a></li>
+                        <li><a href="#">Library</a></li>
+                        <li><a href="#">Student Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="mailto:admissions@royalafricancollege.mw">Admissions</a></li>
+                        <li><a href="mailto:info@royalafricancollege.mw">General Inquiries</a></li>
+                        <li><a href="mailto:registrar@royalafricancollege.mw">Registrar</a></li>
+                        <li><a href="https.me/265996982449" target="_blank">WhatsApp Us</a></li>
+                        <li><a href="#">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="copyright">&copy; 2024 University Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Firebase v11+ uses ES Modules -->
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="app.js"></script>
+    <script src="smart-learning.js"></script>
+    <script>
+        document.getElementById('smart-learning-redirect-btn').addEventListener('click', () => {
+            const code = prompt('Please enter the access code:');
+            if (code === '010101') {
+                window.location.href = 'smart-learning.html';
+            } else {
+                alert('Incorrect access code.');
+            }
+        });
+    </script>
+    <!-- Back to Top Button -->
+    <button id="back-to-top-btn" title="Go to top">Top</button>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Admin - University Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo"><img src="logo.png" alt="Royal African College Logo" style="height: 40px;"></a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li id="admin-nav-link" class="hidden"><a href="admin.html">Admin</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container page-content">
+        <h1>Course Admin</h1>
+        <form id="course-admin-form">
+            <input type="hidden" id="course-id">
+            <div>
+                <label for="course-title">Course Title</label>
+                <input type="text" id="course-title" required>
+            </div>
+            <div>
+                <label for="course-code">Course Code</label>
+                <input type="text" id="course-code" required>
+            </div>
+            <div>
+                <label for="course-credits">Credits</label>
+                <input type="number" id="course-credits" required>
+            </div>
+            <div>
+                <label for="course-description">Description</label>
+                <textarea id="course-description" rows="5"></textarea>
+            </div>
+            <div>
+                <label for="course-syllabus">Syllabus</label>
+                <textarea id="course-syllabus" rows="10"></textarea>
+            </div>
+            <button type="submit" class="btn">Save Changes</button>
+        </form>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 University Portal. Inspired by MIT OpenCourseWare.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>

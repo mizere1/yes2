@@ -1,0 +1,140 @@
+<!--
+Student dashboard page.
+This page displays the student's academic progress, enrolled courses, and announcements.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - University Portal</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main navigation bar -->
+    <nav>
+        <div class="container">
+            <!-- Logo -->
+            <a href="index.html" class="logo"><img src="logo.png" alt="Royal African College Logo" style="height: 40px;"></a>
+            <!-- Desktop navigation links -->
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#all-courses">Courses</a></li>
+                <li id="student-chat-nav-link" class="hidden"><a href="chat.html">Chat</a></li>
+                <li id="announcements-nav-link"><a href="dashboard.html#platform-news-section">Announcements</a></li>
+                <li id="admin-nav-link" class="hidden"><a href="admin.html">Admin</a></li>
+                <li><a href="#">Contact</a></li>
+                <li id="profile-nav-link" class="hidden"><a href="profile.html">Profile</a></li>
+                <li id="auth-status"><a href="#" id="login-logout">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main content of the dashboard page -->
+    <main id="dashboard-page" class="container page-content">
+        <section id="student-dashboard">
+            <h1>Student Dashboard</h1>
+            
+            <!-- Enrolled courses section -->
+            <div id="enrolled-courses-section">
+                <h2>My Enrolled Courses</h2>
+                <div id="enrolled-courses-list" class="course-list">
+                    <!-- Enrolled courses will be dynamically loaded here by app.js -->
+                </div>
+            </div>
+
+            <!-- Academic progress summary section -->
+            <div id="academic-progress-section">
+                <h2>Academic Progress</h2>
+                <div class="progress-summary">
+                    <div class="progress-card">
+                        <h3>Courses in Progress</h3>
+                        <p id="courses-in-progress">0</p>
+                    </div>
+                    <div class="progress-card">
+                        <h3>Assignments Due</h3>
+                        <p id="assignments-due">0</p>
+                    </div>
+                    <div class="progress-card">
+                        <h3>Upcoming Exams</h3>
+                        <p id="upcoming-exams">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming assignments section -->
+            <div id="upcoming-assignments-section">
+                <h2>Upcoming Assignments/Quizzes</h2>
+                <ul id="upcoming-assignments-list">
+                    <!-- Upcoming assignments will be dynamically loaded here by app.js -->
+                    <li>No upcoming assignments at the moment.</li>
+                </ul>
+            </div>
+
+            <!-- Course announcements section -->
+            <div id="announcements-section">
+                <h2>Announcements</h2>
+                <ul id="announcements-list">
+                    <!-- Course-specific announcements will be dynamically loaded here by app.js -->
+                    <li>No new course announcements.</li>
+                </ul>
+            </div>
+
+            <!-- Platform news section -->
+            <section id="platform-news-section">
+                <h2>Platform News & Updates</h2>
+                <ul id="platform-news-list" style="list-style-type: none; padding-left: 0;">
+                    <!-- Platform news will be dynamically loaded here by app.js -->
+                    <li>Loading platform news...</li>
+                </ul>
+            </section>
+        </section>
+    </main>
+
+    <!-- Footer section -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 University Portal. Inspired by MIT OpenCourseWare.</p>
+        </div>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo">University Portal</span>
+                    <p>Inspired by MIT OpenCourseWare</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Academic Calendar</a></li>
+                        <li><a href="#">Library</a></li>
+                        <li><a href="#">Student Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="mailto:admissions@royalafricancollege.mw">Admissions</a></li>
+                        <li><a href="mailto:info@royalafricancollege.mw">General Inquiries</a></li>
+                        <li><a href="mailto:registrar@royalafricancollege.mw">Registrar</a></li>
+                        <li><a href="https://wa.me/265996982449" target="_blank">WhatsApp Us</a></li>
+                        <li><a href="#">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="copyright">&copy; 2024 University Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Firebase v11+ uses ES Modules -->
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="app.js"></script>
+    <!-- Back to Top Button -->
+    <button id="back-to-top-btn" title="Go to top">Top</button>
+</body>
+</html>

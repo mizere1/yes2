@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal African College</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo"><img src="logo.png" alt="Royal African College Logo"></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="admissions.html">Admissions</a></li>
+                    <li><a href="academics.html">Academics</a></li>
+                    <li><a href="portal.html">Student Portal</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Welcome to Royal African College</h1>
+                <p>A premier institution for higher education in Africa, offering 100% online, flexible, and affordable learning.</p>
+            </div>
+        </section>
+
+        <section class="why-choose-us">
+            <div class="container">
+                <h2>Why Choose Royal African College?</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3>100% Online Learning</h3>
+                        <p>Study anytime, anywhere</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>No Tuition Fees</h3>
+                        <p>Pay only a small application and exam fee</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Globally Recognized</h3>
+                        <p>Accredited by the Global Council for Online Education (GCOE)</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Flexible & Self-Paced</h3>
+                        <p>Learn at your own speed</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Pan-African Access</h3>
+                        <p>Students from all over Africa welcome</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="all-courses">
+            <div class="container">
+                <h2>Available Courses</h2>
+                <table id="courses-table" class="hidden">
+                    <thead>
+                        <tr>
+                            <th>Course Title</th>
+                            <th>Course Code</th>
+                            <th>Credits</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="courses-container">
+                        <!-- Courses will be dynamically loaded here by app.js -->
+                    </tbody>
+                </table>
+                <button id="view-courses-btn" class="btn">View Available Programmes/Courses</button>
+            </div>
+        </section>
+
+        <section class="apply-now">
+            <div class="container">
+                <a href="portal.html#signup-form" class="btn btn-apply">Apply Now</a>
+            </div>
+        </section>
+
+        <section class="student-portal">
+            <div class="container">
+                <h2>Student Portal</h2>
+                <p>Already a student? Access your dashboard below:</p>
+                <a href="portal.html" class="btn">Log In to Student Portal</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Royal African College. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>

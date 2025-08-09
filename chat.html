@@ -1,0 +1,133 @@
+<!--
+Student chat page.
+This page contains the chat interface for students to communicate with each other.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Chat - University Portal</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Inline styles for chat page specific elements -->
+    <style>
+        .chat-container {
+            max-width: 800px;
+            margin: 2em auto;
+            padding: 2em;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        #chat-messages-area {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        .chat-message {
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            line-height: 1.4;
+        }
+        .chat-message strong {
+            color: var(--mit-red);
+        }
+        .chat-message .timestamp {
+            font-size: 0.8em;
+            color: #777;
+            margin-left: 10px;
+        }
+        #chat-input-area {
+            display: flex;
+            gap: 10px;
+        }
+        #chat-message-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main navigation bar -->
+    <nav>
+        <div class="container">
+            <!-- Logo -->
+            <a href="index.html" class="logo"><img src="logo.png" alt="Royal African College Logo" style="height: 40px;"></a>
+            <!-- Desktop navigation links -->
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#all-courses">Courses</a></li>
+                <li id="student-chat-nav-link" class="hidden"><a href="chat.html">Chat</a></li>
+                <li id="announcements-nav-link"><a href="dashboard.html#platform-news-section">Announcements</a></li>
+                <li id="admin-nav-link" class="hidden"><a href="admin.html">Admin</a></li>
+                <li><a href="#">Contact</a></li>
+                <li id="profile-nav-link" class="hidden"><a href="profile.html">Profile</a></li>
+                <li id="auth-status"><a href="#" id="login-logout">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main content of the chat page -->
+    <main class="container chat-container">
+        <h1>Student Chat</h1>
+        <!-- Chat messages area -->
+        <div id="chat-messages-area">
+            <p>Loading messages...</p>
+        </div>
+        <!-- Chat input area -->
+        <div id="chat-input-area">
+            <input type="text" id="chat-message-input" placeholder="Type your message...">
+            <button id="send-chat-message-btn" class="btn">Send</button>
+        </div>
+    </main>
+
+    <!-- Footer section -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo">University Portal</span>
+                    <p>Inspired by MIT OpenCourseWare</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Academic Calendar</a></li>
+                        <li><a href="#">Library</a></li>
+                        <li><a href="#">Student Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="mailto:admissions@royalafricancollege.mw">Admissions</a></li>
+                        <li><a href="mailto:info@royalafricancollege.mw">General Inquiries</a></li>
+                        <li><a href="mailto:registrar@royalafricancollege.mw">Registrar</a></li>
+                        <li><a href="https://wa.me/265996982449" target="_blank">WhatsApp Us</a></li>
+                        <li><a href="#">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="copyright">&copy; 2024 University Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="app.js"></script>
+    <!-- Back to Top Button -->
+    <button id="back-to-top-btn" title="Go to top">Top</button>
+</body>
+</html>

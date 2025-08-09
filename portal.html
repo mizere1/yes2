@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal - Royal African College</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo"><img src="logo.png" alt="Royal African College Logo" style="height: 40px;"></a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li id="profile-nav-link" class="hidden"><a href="profile.html">Profile</a></li>
+                <li id="auth-status"><a href="#" id="login-logout">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container page-content">
+        <header id="auth-section" class="hidden">
+            <div class="container">
+                <h2>Login or Sign Up</h2>
+                <!-- Login form -->
+                <form id="login-form" class="auth-form">
+                    <h3>Login</h3>
+                    <input type="email" id="login-email" placeholder="Email" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                </form>
+                <hr>
+                <!-- Signup form -->
+                <form id="signup-form" class="auth-form">
+                    <h3>Sign Up</h3>
+                    <input type="text" id="signup-name" placeholder="Full Name" required>
+                    <input type="email" id="signup-email" placeholder="Email" required>
+                    <input type="password" id="signup-password" placeholder="Password" required>
+
+                    <h4>Personal Details</h4>
+                    <input type="date" id="signup-dob" placeholder="Date of Birth">
+                    <select id="signup-gender">
+                        <option value="">Select Gender...</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                        <option value="PreferNotToSay">Prefer Not to Say</option>
+                    </select>
+
+                    <h4>Contact Information</h4>
+                    <input type="tel" id="signup-phone" placeholder="Phone Number">
+                    <input type="text" id="signup-address-street" placeholder="Street Address">
+                    <input type="text" id="signup-address-city" placeholder="City">
+                    <input type="text" id="signup-address-state" placeholder="State/Province">
+                    <input type="text" id="signup-address-zip" placeholder="Zip/Postal Code">
+                    <input type="text" id="signup-address-country" placeholder="Country">
+
+                    <h4>Academic Background</h4>
+                    <textarea id="signup-prev-education" placeholder="Previous Education (e.g., High School, Previous Degrees)"></textarea>
+                    <label for="signup-transcripts">Upload Transcripts (PDF, DOC, DOCX):</label>
+                    <input type="file" id="signup-transcripts" accept=".pdf,.doc,.docx">
+
+                    <h4>Program Selection</h4>
+                    <input type="text" id="signup-degree" placeholder="Degree (e.g., Bachelor of Science)">
+                    <input type="text" id="signup-major" placeholder="Major (e.g., Computer Science)">
+                    <input type="text" id="signup-minor" placeholder="Minor (Optional)">
+
+                    <h4>Emergency Contact</h4>
+                    <input type="text" id="signup-emergency-name" placeholder="Emergency Contact Name">
+                    <input type="text" id="signup-emergency-relationship" placeholder="Relationship">
+                    <input type="tel" id="signup-emergency-phone" placeholder="Emergency Contact Phone">
+
+                    <h4>Profile Picture</h4>
+                    <label for="signup-profile-picture">Upload Profile Picture (JPG, PNG):</label>
+                    <input type="file" id="signup-profile-picture" accept="image/jpeg,image/png">
+
+                    <div>
+                        <input type="checkbox" id="signup-terms" required>
+                        <label for="signup-terms">I accept the <a href="#terms" target="_blank">Terms and Conditions</a></label>
+                    </div>
+
+                    <button type="submit">Sign Up</button>
+                </form>
+                 <p id="auth-error" class="error-message"></p>
+            </div>
+        </header>
+        <div class="portal-container">
+            <div class="profile-sidebar">
+                <img id="profile-picture" src="#" alt="Profile Picture">
+                <h2 id="user-name"></h2>
+                <p id="user-email"></p>
+                <button id="logout-button" class="btn">Logout</button>
+            </div>
+            <div class="portal-content">
+                <h1>Student Portal</h1>
+                <div class="feature-grid">
+                    <a href="dashboard.html" class="feature-card">
+                        <h3>Dashboard</h3>
+                        <p>View your academic progress and enrolled courses.</p>
+                    </a>
+                    <a href="chat.html" class="feature-card">
+                        <h3>Chat</h3>
+                        <p>Communicate with your peers.</p>
+                    </a>
+                    <a href="profile.html" class="feature-card">
+                        <h3>Profile</h3>
+                        <p>View and edit your profile information.</p>
+                    </a>
+                    <a href="course.html" class="feature-card">
+                        <h3>Courses</h3>
+                        <p>Browse and enroll in courses.</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Royal African College. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="portal.js"></script>
+</body>
+</html>

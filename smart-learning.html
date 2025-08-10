@@ -1,276 +1,1078 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Royal African College</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* Reset some defaults */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Royal African College — Enhanced</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #f7f9fc;
+    --card: #ffffff;
+    --accent: #007bff;
+    --accent-2: #00c6ff;
+    --text: #1d2c3d;
+    --muted: #5a6f87;
+    --border-color: #e6eef7;
+    --ok: #28a745;
+    --danger: #dc3545;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 30px;
+    transition: background-color 0.3s;
+  }
+  .container{max-width:1100px; margin:0 auto; opacity: 1; transition: opacity 0.5s;}
+  .container.loading { opacity: 0.5; pointer-events: none; }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      background: #f9faff;
-      color: #000000;
-      line-height: 1.6;
-    }
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom: 30px;
+    animation: fadeInDown 0.5s ease-out;
+  }
+  h1{
+    margin:0;
+    font-size: 28px;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .sub{color:var(--muted); font-size:14px; margin-top: 4px;}
+  .section{
+    background:var(--card);
+    border-radius:16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(29, 44, 61, 0.08);
+    animation: fadeInUp 0.5s ease-out;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(29, 44, 61, 0.12);
+  }
 
-    header, footer {
+  label{display:block; color:var(--muted); font-weight:600; margin-bottom:8px; font-size: 14px;}
+  select,input,textarea{
+    width:100%;
+    padding:12px 14px;
+    border-radius:10px;
+    border:1px solid var(--border-color);
+    margin-top:6px;
+    font-size: 15px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  select:focus, input:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    outline: none;
+  }
+  textarea:disabled {
+    background-color: #f8f9fa;
+    color: #6c757d;
+  }
+
+  .grid{display:grid; grid-template-columns:1fr 360px; gap:24px}
+  .btn{
+    background: linear-gradient(45deg, var(--accent), var(--accent-2));
+    color:#fff;
+    padding:12px 18px;
+    border-radius:10px;
+    border:0;
+    font-weight:700;
+    font-size: 15px;
+    cursor:pointer;
+    transition: transform 0.2s, box-shadow 0.3s;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  }
+  .btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+  }
+  .btn.secondary{background: #475569;}
+  .btn.ghost{
+    background:transparent;
+    border:1px solid var(--border-color);
+    color: var(--text);
+    box-shadow: none;
+  }
+  .btn.ghost:hover {
+    background: var(--bg);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  .btn .spinner {
+    display: none;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s ease-in-out infinite;
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    margin-top: -8px;
+  }
+  .btn.loading .spinner { display: block; }
+  .btn.loading span { visibility: hidden; }
+
+  .flex{display:flex;gap:10px;align-items:center}
+  .meta{font-size:13px;color:var(--muted);margin-top:12px}
+  .progress{height:14px;background:#eef2ff;border-radius:999px;overflow:hidden;margin-top:8px}
+  .progress-inner{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0;transition:width .4s}
+  .tag{display:inline-block;padding:6px 12px;border-radius:999px;background: #e6f2ff; color:var(--accent);font-weight:700;font-size:13px}
+  .card{background:#fbfdff;padding:16px;border-radius:12px;border:1px solid #eef6ff;margin-top:16px}
+  .read-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
+  .read-card{border-radius:10px;padding:12px;border:1px solid #eef2ff;background:#fff;display:flex;flex-direction:column;gap:6px; transition: box-shadow 0.3s, transform 0.3s;}
+  .read-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .read-title{font-weight:700}
+  .small{font-size:13px;color:var(--muted)}
+  iframe{width:100%;height:200px;border-radius:8px;border:0; box-shadow: 0 4px 12px rgba(0,0,0,0.1);}
+  textarea{width:100%;min-height:80px;border-radius:8px;padding:10px;border:1px solid var(--border-color)}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
+  th,td{padding:8px;border-bottom:1px solid #f3f6fb;text-align:left}
+  .mastery-list{max-height:360px;overflow:auto;border-radius:8px;border:1px solid #eef2ff;padding:8px;background:#fff}
+  .exam-block{margin-top:12px;padding:10px;border-radius:8px;border:1px dashed var(--border-color);background:#fcfdff}
+  .status-ok{color:var(--ok);font-weight:700}
+  .status-pending{color:#b45309;font-weight:700}
+  .status-fail{color:var(--danger);font-weight:700}
+  .note{font-size:13px;color:var(--muted)}
+  .error-message { color: var(--danger); font-weight: bold; margin-top: 10px; text-align: center; }
+
+  /* Explanation Content Styles */
+  #explanationHTML h3 {
+    font-size: 18px;
+    color: var(--accent);
+    margin-top: 20px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #eef2ff;
+    padding-bottom: 8px;
+  }
+  #explanationHTML ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 10px;
+  }
+  #explanationHTML li {
+    margin-bottom: 8px;
+    line-height: 1.7;
+  }
+  #explanationHTML p {
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  #explanationHTML strong {
+    font-weight: 700;
+    color: #111827;
+  }
+  .interactive-reply {
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    font-size: 15px;
+    resize: vertical;
+  }
+  .interactive-question-block {
+    margin-bottom: 24px;
+  }
+  .interactive-submit-btn {
+    margin-top: 8px;
+  }
+  .interactive-feedback-box {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: var(--bg);
+    border: 1px solid var(--border-color);
+    display: none; /* Hidden by default */
+  }
+  .unit-sub-section {
+    display: none;
+  }
+
+  /* Exam Modal Styles */
+  .exam-modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none; align-items: center; justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease-out;
+  }
+  .exam-modal-content {
+    background: var(--bg);
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: slideInUp 0.4s ease-out;
+  }
+  .exam-modal-header {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+  }
+  #examModalLoader {
       text-align: center;
-      margin-bottom: 2rem;
-      color: #444;
-    }
+      font-size: 18px;
+      color: var(--muted);
+      padding: 40px;
+  }
 
-    h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      color: var(--primary-navy-blue);
-      margin-bottom: 0.5rem;
-    }
-
-    h2, h3, h4 {
-      color: var(--text-dark);
-      margin-bottom: 1.5rem;
-    }
-
-    section {
-      background: white;
-      padding: 1.5rem 2rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
-      margin-bottom: 2rem;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    input[type="text"], select {
-      width: 100%;
-      max-width: 400px;
-      padding: 0.8rem 1rem;
-      margin: 0.5rem 0 1.5rem;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      transition: all 0.3s ease;
-    }
-
-    input[type="text"]:focus, select:focus {
-      border-color: var(--accent-gold);
-      outline: none;
-      box-shadow: 0 0 5px rgba(255, 184, 28, 0.5);
-    }
-
-    button {
-      background: var(--accent-gold);
-      color: var(--primary-navy-blue);
-      border: none;
-      padding: 0.8rem 1.5rem;
-      font-size: 1.1rem;
-      font-weight: 600;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      user-select: none;
-    }
-
-    button:disabled {
-      background: #8ab1ff;
-      cursor: not-allowed;
-    }
-
-    button:hover:not(:disabled) {
-      background: #1a54cc;
-    }
-
-    #loadingCircle {
-      display: none;
-      width: 60px;
-      height: 60px;
-      border: 8px solid var(--secondary-cool-gray);
-      border-top: 8px solid var(--accent-gold);
-      border-radius: 50%;
-      animation: spin 1.5s linear infinite;
-      margin: 1rem auto;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    #semesterOutline div {
-      font-size: 1.1rem;
-      padding: 0.35rem 0;
-      border-bottom: 1px solid #eee;
-      color: #000000;
-    }
-
-    .progress-bar {
-      width: 100%;
-      height: 20px;
-      background: #e1e4eb;
-      border-radius: 15px;
-      overflow: hidden;
-      margin-top: 0.5rem;
-      box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.1);
-    }
-
-    .progress-bar-inner {
-      height: 100%;
-      background: var(--accent-gold);
-      width: 0%;
-      transition: width 0.35s ease-in-out;
-    }
-
-    #progressNote {
-      font-weight: 600;
-      margin-top: 0.3rem;
-      color: var(--primary-navy-blue);
-      user-select: none;
-    }
-
-    #dailyTaskTitle {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      color: var(--text-dark);
-      user-select: text;
-    }
-
-    #dailyExplanation {
-      white-space: pre-wrap;
-      background: var(--secondary-cool-gray);
-      padding: 1rem;
-      border-radius: 10px;
-      margin-bottom: 1.5rem;
-      max-height: 300px;
-      overflow-y: auto;
-      box-shadow: inset 0 0 8px rgba(0,0,0,0.1);
-      user-select: text;
-    }
-
-    #videos iframe {
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      margin-bottom: 1rem;
-    }
-
-    #exerciseSection ul {
-      list-style-type: disc;
-      padding-left: 1.5rem;
-      margin-top: 0.5rem;
-      user-select: text;
-    }
-
-    #exerciseSection ul li {
-      margin-bottom: 0.5rem;
-    }
-
-    #exerciseSection ul li a {
-      color: #0000FF;
-      text-decoration: none;
-      transition: color 0.25s ease;
-    }
-
-    #exerciseSection ul li a:hover {
-      text-decoration: underline;
-      color: #0000FF;
-    }
-
-    footer {
-      font-size: 0.9rem;
-      color: #888;
-      margin-top: 3rem;
-      user-select: none;
-    }
-
-    #moduleInput {
-      margin-bottom: 1rem;
-    }
-
-    #submitModuleBtn {
-      margin-bottom: 1rem;
-    }
-
-    @media (max-width: 600px) {
-      #dailyExplanation {
-        max-height: 250px;
-      }
-      iframe {
-        max-width: 100%;
-        height: 200px;
-      }
-      input[type="text"], select {
-        max-width: 100%;
-      }
-      section {
-        padding: 1rem 1rem;
-      }
-    }
-  </style>
+  /* Animations */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideInUp { from { transform: translateY(50px); } to { transform: translateY(0); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
 </head>
-<body class="smart-learning-page">
+<body>
+<div class="container">
   <header>
-    <a href="index.html" class="logo"><img src="logo.png" alt="Royal African College Logo" style="height: 40px;"></a>
-    <h1>Royal African College</h1>
-    <p>Accelerated AI-driven Semester Education</p>
+    <div>
+      <h1>Royal African College — Enhanced Curriculum</h1>
+      <div class="sub">Self-Paced • Personalized • Competency-Based • Project First</div>
+    </div>
+    <div class="small">Education Reimagined</div>
   </header>
 
-  <section id="courseSection">
-    <h2>Begin Your Learning Journey</h2>
-    <label for="courseType">Choose Program</label>
-    <select id="courseType">
-      <option value="">-- Select --</option>
-      <option value="Diploma">Diploma</option>
-      <option value="Degree">Degree</option>
-    </select>
-    <input type="text" id="fieldInput" placeholder="Enter field of study">
-    <button id="startBtn">Start Program</button>
-    <div id="loadingCircle"></div>
-    <div id="loading-message" class="hidden">Please wait, program upload in process...</div>
-  </section>
+  <section class="section" id="setupSection">
+    <div id="apiError" class="error-message" style="display:none;"></div>
+    <div class="grid">
+      <div>
+        <label>Program Level</label>
+        <select id="programLevel">
+          <option value="Certificate">Certificate</option>
+          <option value="Diploma">Diploma</option>
+          <option value="Degree">Degree</option>
+          <option value="Masters">Masters</option>
+          <option value="PhD">PhD</option>
+        </select>
 
-  <section id="scheduleSection" class="hidden">
-    <h2>Semester Plan (3 Months)</h2>
-    <div id="semesterOutline"></div>
-    <button id="nextDayBtn" class="hidden">Continue Next Day</button>
-  </section>
+        <label>Field of Study</label>
+        <input id="fieldInput" type="text" placeholder="e.g. Computer Science, Data Science, Product Design" />
 
-  <section id="learningSection" class="hidden">
-    <h2>Student Progress</h2>
-    <div class="progress-bar">
-      <div id="progressBarInner" class="progress-bar-inner"></div>
+        <label>Pacing</label>
+        <select id="pacingMode">
+          <option value="traditional">Traditional (time-based)</option>
+          <option value="self-directed">Self-Directed (goal-based)</option>
+        </select>
+
+        <div style="margin-top:12px" class="flex">
+          <button id="startBtn" class="btn">
+            <div class="spinner"></div>
+            <span>Generate Curriculum</span>
+          </button>
+          <button id="sampleBtn" class="btn secondary">Load Sample</button>
+        </div>
+
+        <div class="meta">After each unit: an exam will be scheduled and feedback will be provided when you submit answers.</div>
+      </div>
+
+      <aside>
+        <div><strong>Mastery Map</strong></div>
+        <div id="masteryMap" class="mastery-list" style="margin-top:10px">
+          <div class="note">No program yet — generate or load sample to begin.</div>
+        </div>
+        <div style="margin-top:8px" class="flex">
+          <button id="exportBtn" class="btn ghost">Export Mastery Map</button>
+          <button id="clearBtn" class="btn ghost">Clear</button>
+        </div>
+      </aside>
     </div>
-    <div id="progressNote">Progress: 0%</div>
-
-    <h3>Today's Module</h3>
-    <input type="text" id="moduleInput" placeholder="Enter module name" class="hidden">
-    <button id="submitModuleBtn" class="hidden">Load Module Content</button>
-    <h4 id="dailyTaskTitle"></h4>
-    <div id="dailyExplanation">Loading detailed explanation...</div>
-
-    <h3>Related Videos</h3>
-    <div id="videos"></div>
-
-    <h3>Suggested Reading Materials</h3>
-    <div id="exerciseSection"></div>
   </section>
 
-  <button id="startOverBtn" class="hidden">Start Over</button>
+  <section id="unitSection" class="section" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div id="unitTitle" style="font-size:18px;font-weight:700">Unit</div>
+        <div class="small" id="unitMeta">Year • Semester • Milestone</div>
+      </div>
+      <div class="flex">
+        <div id="statusTag" class="tag">In progress</div>
+        <button id="markMasteredBtn" class="btn">Mark Mastered & Next</button>
+      </div>
+    </div>
 
-  <footer>
-    <p>© 2025 Smart University Learning. All rights reserved.</p>
+    <div class="card" id="explanationCard">
+      <div style="display:flex;justify-content:space-between;gap:12px">
+        <div style="flex:1">
+          <div id="explanationHTML">Loading explanation…</div>
+        </div>
+        <div style="width:320px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="small">Program Progress</div>
+            <div id="progressPct" class="small">0%</div>
+          </div>
+          <div class="progress"><div id="progressInner" class="progress-inner"></div></div>
+
+          <div style="margin-top:12px">
+            <div class="small">Scheduled Exam</div>
+            <div id="examInfo" class="small">—</div>
+            <div style="margin-top:8px" class="flex">
+              <button id="takeExamBtn" class="btn ghost">Take Exam Now</button>
+              <button id="viewFeedbackBtn" class="btn ghost">View Feedback</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="projectSection" class="unit-sub-section card">
+        <div style="font-weight:700">Project Example</div>
+        <div id="projectExample" class="small" style="margin-top: 8px;">—</div>
+    </div>
+
+    <div id="readingsSection" class="unit-sub-section card">
+        <div style="font-weight:700">Suggested Readings</div>
+        <div id="readingGrid" class="read-grid"></div>
+    </div>
+
+    <div id="videosSection" class="unit-sub-section card">
+        <div style="font-weight:700">Videos</div>
+        <div class="small" style="margin-top:4px;">Watching these short videos can be a great way to solidify your understanding of the key concepts.</div>
+        <div id="videos" style="margin-top:8px"></div>
+    </div>
+  </section>
+
+  <footer class="section" style="text-align:center">
+    <div class="note">© 2024 Royal African College. All rights reserved.</div>
   </footer>
+</div>
 
-  <script src="smart-learning-script.js"></script>
+<!-- Exam Modal -->
+<div id="examModal" class="exam-modal">
+  <div class="exam-modal-content">
+    <div id="examModalLoader">
+        <div class="spinner" style="display: block; border-color: var(--muted); border-top-color: var(--accent); width: 40px; height: 40px; margin: 20px auto;"></div>
+        <p>Preparing your exam...</p>
+    </div>
+    <div id="examModalBody" style="display:none;">
+        <div id="examModalHeader">Exam Title</div>
+        <div id="examQuestions"></div>
+        <div style="margin-top:8px">
+          <div style="font-weight:700">Your answers</div>
+          <div id="answersBox"></div>
+          <div style="margin-top:18px; border-top: 1px solid #e6eef7; padding-top: 15px;" class="flex">
+            <button id="submitExamBtn" class="btn">
+              <div class="spinner"></div>
+              <span>Submit Exam</span>
+            </button>
+            <button id="cancelExamBtn" class="btn ghost">Cancel</button>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+/* -------------------------
+   API KEYS (user provided earlier)
+   ------------------------- */
+const GEMINI_API_KEY = "AIzaSyBy93HTPV7fk-XCUmukQJsWTxHcvYDWEeQ";
+const YOUTUBE_API_KEY = "AIzaSyA0SxBg-UrxkRroy3lre6bziHFwFOAs3tI";
+
+/* -------------------------
+   Storage helpers
+   ------------------------- */
+function save(key,data){localStorage.setItem(key,JSON.stringify(data))}
+function load(key){try{return JSON.parse(localStorage.getItem(key)||'null')}catch(e){return null}}
+function remove(key){localStorage.removeItem(key)}
+
+/* -------------------------
+   Small helpers
+   ------------------------- */
+function splitIntoLessons(markdown) {
+    if (!markdown) return [];
+    const lines = markdown.split(/\r?\n/);
+    const lessons = [];
+    let currentLesson = '';
+
+    for (const line of lines) {
+        currentLesson += line + '\n';
+        if (line.trim().endsWith('?')) {
+            lessons.push(currentLesson.trim());
+            currentLesson = '';
+        }
+    }
+
+    if (currentLesson.trim()) {
+        lessons.push(currentLesson.trim());
+    }
+    return lessons;
+}
+
+function renderMarkdown(markdown) {
+  if (!markdown) return '';
+  const esc = markdown.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const lines = esc.split(/\r?\n/);
+  let html = '';
+  let inUl = false;
+  let questionIndex = 0;
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    if (inUl && !trimmed.startsWith('- ')) {
+        html += '</ul>';
+        inUl = false;
+    }
+
+    if (trimmed.startsWith('### ')) {
+      html += `<h3>${trimmed.substring(4)}</h3>`;
+    } else if (trimmed.startsWith('- ')) {
+      if (!inUl) {
+        html += '<ul>';
+        inUl = true;
+      }
+      const itemContent = trimmed.substring(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      html += `<li>${itemContent}</li>`;
+    } else if (trimmed) {
+      const pContent = trimmed.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      if (trimmed.endsWith('?')) {
+        html += `<div class="interactive-question-block" data-question-id="${questionIndex}">`;
+        html += `<p data-question-text>${pContent}</p>`;
+        html += `<textarea class="interactive-reply" placeholder="Type your thoughts here..."></textarea>`;
+        html += `<button class="btn ghost interactive-submit-btn">Submit Answer</button>`;
+        html += `<div class="interactive-feedback-box"></div>`;
+        html += `</div>`;
+        questionIndex++;
+      } else {
+        html += `<p>${pContent}</p>`;
+      }
+    }
+  }
+
+  if (inUl) {
+    html += '</ul>';
+  }
+  return html;
+}
+
+function addInteractiveListeners() {
+  const questionBlocks = document.querySelectorAll('.interactive-question-block');
+  questionBlocks.forEach(block => {
+    const submitBtn = block.querySelector('.interactive-submit-btn');
+    if (submitBtn.dataset.listenerAttached) return; // Prevent duplicate listeners
+
+    submitBtn.dataset.listenerAttached = 'true';
+    submitBtn.addEventListener('click', async () => {
+      const questionText = block.querySelector('[data-question-text]').innerText;
+      const answerText = block.querySelector('.interactive-reply').value;
+      const feedbackBox = block.querySelector('.interactive-feedback-box');
+      const replyTextarea = block.querySelector('.interactive-reply');
+
+      if (!answerText.trim()) {
+        alert('Please provide an answer before submitting.');
+        return;
+      }
+
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+      replyTextarea.disabled = true;
+      feedbackBox.style.display = 'block';
+      feedbackBox.innerHTML = '<div class="small">Getting feedback...</div>';
+
+      const feedback = await getTutorFeedback(questionText, answerText);
+
+      feedbackBox.innerHTML = renderMarkdown(feedback);
+
+      const continueBtn = document.createElement('button');
+      continueBtn.className = 'btn interactive-continue-btn';
+      continueBtn.innerText = 'Continue →';
+      continueBtn.style.marginTop = '10px';
+      feedbackBox.appendChild(continueBtn);
+
+      continueBtn.addEventListener('click', () => {
+          const program = loadProgram();
+          const unitIdx = loadIdx();
+          program.units[unitIdx].lesson_progress++;
+          saveProgram(program);
+          // remove the button and feedback before rendering next part
+          block.innerHTML = `<p data-question-text>${questionText}</p><textarea class="interactive-reply" disabled>${answerText}</textarea><div class="interactive-feedback-box" style="display:block;">${feedbackBox.innerHTML}</div>`;
+          renderCurrentLesson(unitIdx);
+      });
+
+      submitBtn.classList.remove('loading');
+    });
+  });
+}
+
+function showApiError(message) {
+    const errorDiv = document.getElementById('apiError');
+    errorDiv.innerText = message;
+    errorDiv.style.display = 'block';
+}
+
+/* -------------------------
+   API wrappers
+   ------------------------- */
+async function callGemini(prompt){
+  const model = "gemini-2.5-flash";
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
+  const body = { contents:[{ parts:[{ text: prompt }] }] };
+  try{
+    const res = await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!res.ok){ const txt = await res.text(); throw new Error('Gemini HTTP '+res.status+': '+txt) }
+    const json = await res.json();
+    const text = json?.candidates?.[0]?.content?.parts?.[0]?.text ?? null;
+    if (!text) throw new Error("API returned no content.");
+    return text;
+  }catch(e){
+    console.error('Gemini error',e);
+    showApiError('thank you for today, lessons are courrently not available, come back later.');
+    return null;
+  }
+}
+
+async function searchYouTube(q){
+  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(q)}&type=video&videoDuration=short&maxResults=2&key=${YOUTUBE_API_KEY}`;
+  try{
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('YT ' + res.status);
+    const json = await res.json();
+    return json.items || [];
+  }catch(e){
+    console.error('YouTube error',e);
+    document.getElementById('videos').innerHTML = '<div class="small">Could not load videos. Please check your connection or try again later.</div>';
+    return [];
+  }
+}
+
+/* -------------------------
+   Curriculum prompt variants
+   ------------------------- */
+async function generateCurriculum(level, field, pacing) {
+  const prompt = `
+You are an expert curriculum designer. Produce a curriculum for a ${level} program in "${field}" that follows these principles:
+- Self-Paced but Structured
+- Personalized Pathways
+- Continuous Feedback
+- Competency-Based Progression
+- Project-First Learning
+
+Return JSON only. Structure: { "units": [ { "id":"u1","title":"...","description":"1-2 sentences","projectExample":"...","estimatedTime":"e.g. 2 weeks","level":"Certificate|Diploma|Degree|Masters|PhD","scheduledOffsetDays":X } ] }
+
+Create 8–18 units appropriate to the level (Certificate = few, PhD = research heavy). For each unit add a recommended \`scheduledOffsetDays\` (how many days after program start the exam should be scheduled). Keep descriptions concise.`;
+  const raw = await callGemini(prompt);
+  if(!raw) return null;
+  // extract JSON, remove markdown fences
+  let s = raw.replace(/```json|```/gi,'').trim();
+  try{ return JSON.parse(s); } catch(e){
+    // attempt to find JSON substring
+    const i = s.indexOf('{');
+    if(i>=0) {
+      try { return JSON.parse(s.slice(i)); } catch(e2){ console.error('parse fail',e2); return null; }
+    }
+    return null;
+  }
+}
+
+/* -------------------------
+   Exam generation & grading prompts
+   ------------------------- */
+async function generateExamForUnit(unitTitle) {
+  const prompt = `
+Generate a short structured exam for the learning unit titled "${unitTitle}". Provide 2-3 questions that are a mix of short-answer (2-4 sentences expected) and practical/mini-project prompts. Do NOT include any multiple-choice questions.
+Return JSON only. The structure must be: { "examId":"...", "questions":[ {"id":"q1","type":"short","question":"...","answer":"model answer"}, {"id":"q2","type":"project","question":"...","expected":"..."} ] }
+  `;
+  const raw = await callGemini(prompt);
+  if(!raw) return null;
+  const cleaned = raw.replace(/```json|```/gi,'').trim();
+  try{ return JSON.parse(cleaned); }catch(e){ // try substring
+    const i = cleaned.indexOf('{');
+    if(i>=0) try{ return JSON.parse(cleaned.slice(i)); }catch(e2){ console.error('exam parse fail',e2); return null; }
+    return null;
+  }
+}
+
+async function gradeExam(unitTitle, exam, answers) {
+  const prompt = `
+You are an expert grader. Unit: "${unitTitle}".
+Exam: ${JSON.stringify(exam)}
+Student answers: ${JSON.stringify(answers)}
+
+Grade each question and provide:
+- score (0-100)
+- detailed feedback and corrections
+- three concrete next-steps the student should take to improve
+
+Return JSON: { "scores": { "q1": 100, "q2": 60, ... }, "total": 80, "feedback": { "q1":"...", "q2":"..." }, "nextSteps":["...","...","..."] }
+  `;
+  const raw = await callGemini(prompt);
+  if(!raw) return null;
+  const cleaned = raw.replace(/```json|```/gi,'').trim();
+  try{ return JSON.parse(cleaned); }catch(e){
+    const i = cleaned.indexOf('{');
+    if(i>=0) try{ return JSON.parse(cleaned.slice(i)); }catch(e2){ console.error('grade parse fail',e2); return null; }
+    return null;
+  }
+}
+
+async function getTutorFeedback(question, answer) {
+  const prompt = `
+As an AI tutor, a student was asked the following question:
+"${question}"
+
+The student provided this answer:
+"${answer}"
+
+Please provide brief, encouraging, and constructive feedback on their answer in 1-3 sentences. If the answer is good, affirm it and maybe add a little more insight. If it's incorrect or partially correct, gently guide them toward the right answer without giving it away directly.
+  `;
+  const feedback = await callGemini(prompt);
+  return feedback || "Sorry, I couldn't process that response right now. Please try again later.";
+}
+
+/* -------------------------
+   UI state & render
+   ------------------------- */
+function saveProgram(program){ save('rac_program',program) }
+function loadProgram(){ return load('rac_program') }
+function saveIdx(i){ save('rac_unit_idx', i) }
+function loadIdx(){ return load('rac_unit_idx') ?? 0 }
+
+
+function renderProgress(pct, idx, total){
+  document.getElementById('progressInner').style.width = pct + '%';
+  document.getElementById('progressPct').innerText = `${pct}% (${idx}/${total})`;
+}
+
+async function renderUnit(idx){
+  const program = loadProgram();
+  if(!program) return;
+  const units = program.units || [];
+  if(idx >= units.length){
+    alert('Program complete — congratulations!');
+    return;
+  }
+  const u = units[idx];
+  document.getElementById('unitSection').style.display = 'block';
+  document.getElementById('unitTitle').innerText = `${idx+1}. ${u.title}`;
+  document.getElementById('unitMeta').innerText = `${u.level} • Estimated ${u.estimatedTime || 'N/A'}`;
+  document.getElementById('projectExample').innerText = u.projectExample || '—';
+  // status tag
+  const mastered = program.mastery && program.mastery[u.id];
+  document.getElementById('statusTag').innerText = mastered ? 'Mastered' : 'In progress';
+
+  // exam setup info
+  program.exams = program.exams || {};
+  let examRecord = program.exams[u.id];
+  if(!examRecord){
+    // schedule default exam date: now + offset days
+    const offset = u.scheduledOffsetDays ?? 2;
+    const sch = new Date(); sch.setDate(sch.getDate() + offset);
+    examRecord = { scheduledAt: sch.toISOString(), exam: null, answers: null, result: null };
+    program.exams[u.id] = examRecord;
+    saveProgram(program);
+  }
+  document.getElementById('examInfo').innerHTML = `Scheduled: <strong>${new Date(examRecord.scheduledAt).toLocaleString()}</strong>`;
+  document.getElementById('viewFeedbackBtn').disabled = !examRecord.result;
+
+  // explanation (generate or reuse cached)
+  program._cache = program._cache || {};
+  // Hide sub-sections initially
+  document.querySelectorAll('.unit-sub-section').forEach(el => el.style.display = 'none');
+
+  const startSocraticFlow = (explanationText) => {
+      document.getElementById('explanationHTML').innerHTML = ''; // Clear previous content
+      program.units[idx].lessons = splitIntoLessons(explanationText);
+      program.units[idx].lesson_progress = 0;
+      saveProgram(program);
+      renderCurrentLesson(idx);
+  };
+
+  if(program._cache[u.id] && program._cache[u.id].explanation){
+    // If lessons are not generated yet, generate them
+    if (!program.units[idx].lessons || program.units[idx].lessons.length === 0) {
+        startSocraticFlow(program._cache[u.id].explanation);
+    } else {
+        renderCurrentLesson(idx);
+    }
+  } else {
+    document.getElementById('explanationHTML').innerHTML = '<div class="small">Loading refined explanation…</div>';
+    const prompt = `
+You are an engaging and interactive AI tutor. Your goal is to explain concepts in a clear, conversational, and interesting way. For the learning unit titled "${u.title}", provide an explanation that does the following:
+- Start with a friendly and engaging introduction to the topic.
+- Explain the core concepts clearly. Use analogies or real-world examples to make it easy to understand.
+- After explaining a key concept, ask a thought-provoking question to check for understanding and encourage the student to think. End the question with a "?".
+- Keep the tone supportive and encouraging.
+- Structure the content with Markdown headings (e.g., ### Key Concept) for readability.
+- Do not include sections like "Overview", "Practical Application", "Key Takeaways", "Study Suggestions", or "Exam Format". The entire response should be a single, flowing, interactive explanation.
+
+For example, if the topic is "Human Resource Management", you might say:
+"Hello! Ready to dive into the world of Human Resource Management? It's all about the people who make an organization tick. Think of it like being the coach of a sports team. What do you think are the most important things a coach does for their team?
+
+Just like a coach recruits players, a big part of HRM is attracting and hiring the right talent..."
+
+Now, generate an interactive explanation for "${u.title}".
+    `;
+    callGemini(prompt).then(txt=>{
+      const explanationText = txt || 'No explanation available.';
+      program._cache[u.id] = program._cache[u.id]||{};
+      program._cache[u.id].explanation = explanationText;
+      saveProgram(program); // save cache first
+      startSocraticFlow(explanationText);
+    }).catch(e=>{
+      console.error(e);
+      document.getElementById('explanationHTML').innerText = 'Failed to load explanation.';
+    });
+  }
+
+  // readings
+  const renderReadingsAndNote = (readings) => {
+    renderReadings(readings);
+    const note = document.createElement('div');
+    note.className = 'small';
+    note.style.marginTop = '12px';
+    note.innerHTML = `<strong>Pro Tip:</strong> For more specific questions or to dive deeper, don't hesitate to use tools like Google or ChatGPT.`;
+    document.getElementById('readingGrid').appendChild(note);
+  };
+
+  if(program._cache[u.id] && program._cache[u.id].readings){
+    renderReadingsAndNote(program._cache[u.id].readings);
+  } else {
+    document.getElementById('readingGrid').innerHTML = '<div class="small">Loading curated readings…</div>';
+    const rp = `List 5 curated, high-quality reading resources for "${u.title}". For each return JSON object with title, author_or_source, why (1 sentence), and url. Return a JSON array.`;
+    callGemini(rp).then(raw=>{
+      let arr = [];
+      if(raw){
+        const cleaned = raw.replace(/```json|```/gi,'').trim();
+        try{ arr = JSON.parse(cleaned); }catch(e){
+          arr = raw.split(/\r?\n/).filter(Boolean).slice(0,5).map((ln,i)=>({title:ln.slice(0,100), author_or_source:'', why:'', url:''}));
+        }
+      }
+      program._cache[u.id] = program._cache[u.id]||{};
+      program._cache[u.id].readings = arr;
+      saveProgram(program);
+      renderReadingsAndNote(arr);
+    }).catch(e=>{
+      console.error(e);
+      document.getElementById('readingGrid').innerHTML = '<div class="small">Failed to load readings.</div>';
+    });
+  }
+
+  // videos
+  document.getElementById('videos').innerHTML = '<div class="small">Loading videos…</div>';
+  searchYouTube(u.title).then(items=>{
+    if(!items || items.length===0){ document.getElementById('videos').innerHTML = '<div class="small">No videos found.</div>'; return; }
+    const html = items.map(it=>{
+      const id = it.id?.videoId;
+      const t = it.snippet?.title || '';
+      return `<div style="margin-top:8px"><iframe src="https://www.youtube.com/embed/${id}" title="${t}" loading="lazy"></iframe></div>`;
+    }).join('');
+    document.getElementById('videos').innerHTML = html;
+  }).catch(e=>{
+    console.error(e); document.getElementById('videos').innerHTML = '<div class="small">Video load failed.</div>';
+  });
+
+  // progress
+  const pct = Math.round((idx / program.units.length) * 100);
+  renderProgress(pct, idx+1, program.units.length);
+  updateMasteryUI();
+}
+
+function renderCurrentLesson(unitIdx) {
+    const program = loadProgram();
+    const unit = program.units[unitIdx];
+    const lessons = unit.lessons || [];
+    const progress = unit.lesson_progress || 0;
+
+    if (progress >= lessons.length) {
+        // All lessons are done, reveal all sub-sections
+        document.querySelectorAll('.unit-sub-section').forEach(el => el.style.display = 'block');
+        document.getElementById('explanationHTML').innerHTML += `<div class="card" style="margin-top: 16px; text-align: center; padding: 20px;"><h4>Explanation Complete</h4><p class="small">You can now explore the project, readings, and videos below.</p></div>`;
+        return;
+    }
+
+    const currentLessonMarkdown = lessons[progress];
+    // We append instead of replacing innerHTML to keep the flow
+    const lessonContainer = document.createElement('div');
+    lessonContainer.innerHTML = renderMarkdown(currentLessonMarkdown);
+    document.getElementById('explanationHTML').appendChild(lessonContainer);
+
+    // Scroll to the new lesson
+    lessonContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+
+    addInteractiveListeners();
+}
+
+/* render readings cards */
+function renderReadings(arr){
+  if(!arr || arr.length===0){ document.getElementById('readingGrid').innerHTML = '<div class="small">No suggested readings.</div>'; return; }
+  let html = arr.map(r=>{
+    const title = r.title || r[0] || 'Untitled';
+    const src = r.author_or_source || r.source || '';
+    const why = r.why || '';
+    const url = r.url || '#';
+    const link = url && url.startsWith('http') ? `<a href="${url}" target="_blank" rel="noopener">${title}</a>` : title;
+    return `<div class="read-card">
+      <div class="read-title">${link}</div>
+      <div class="small">${src}</div>
+      <div class="small">${why}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('readingGrid').innerHTML = html;
+}
+
+/* update mastery UI list */
+function updateMasteryUI(){
+  const program = loadProgram();
+  const list = document.getElementById('masteryMap');
+  list.innerHTML = '';
+  if(!program || !program.units) { list.innerHTML = '<div class="note">No program loaded</div>'; return;}
+  program.units.forEach((u,i)=>{
+    const mastered = program.mastery && program.mastery[u.id];
+    const exam = program.exams && program.exams[u.id];
+
+    let statusText = '<span class="small">Pending</span>';
+    let score = '';
+    let time = '';
+
+    if (mastered) {
+      statusText = '<span class="status-ok">Mastered</span>';
+      time = new Date(mastered).toLocaleString();
+    } else if (exam) {
+      if (exam.result) {
+        statusText = '<span class="status-pending">Exam taken</span>';
+        score = ` • ${exam.result.total}%`;
+        time = exam.gradedAt ? new Date(exam.gradedAt).toLocaleString() : (exam.takenAt ? new Date(exam.takenAt).toLocaleString() : '');
+      } else if (exam.takenAt) {
+        statusText = '<span class="status-pending">Exam submitted</span>';
+        time = new Date(exam.takenAt).toLocaleString();
+      }
+    }
+
+    list.innerHTML += `<div style="padding:10px;border-bottom:1px solid #f3f6fb">
+      <div style="display:flex;justify-content:space-between">
+        <div><strong>${i+1}. ${u.title}</strong><div class="small">${u.description}</div></div>
+        <div style="text-align:right">
+          <div class="small">${statusText}${score}</div>
+          <div class="small">${time}</div>
+        </div>
+      </div>
+    </div>`;
+  });
+}
+
+/* -------------------------
+   Events
+   ------------------------- */
+document.getElementById('sampleBtn').addEventListener('click', ()=>{
+  // small built-in sample program
+  const sampleUnits = [
+    {id:'u1',title:'Smart Onboarding & Diagnostic',description:'Baseline assessment + personalized plan',projectExample:'Personal learning plan',estimatedTime:'3 days',level:'Certificate',scheduledOffsetDays:1},
+    {id:'u2',title:'Foundations of Programming',description:'Core programming concepts and practice',projectExample:'Mini app',estimatedTime:'2 weeks',level:'Certificate',scheduledOffsetDays:5},
+    {id:'u3',title:'Data & Statistics Basics',description:'Intro to data handling and basic stats',projectExample:'Data analysis notebook',estimatedTime:'2 weeks',level:'Diploma',scheduledOffsetDays:12},
+    {id:'u4',title:'Applied ML Project',description:'Project tying together basics into a mini ML pipeline',projectExample:'ML mini-pipeline repo',estimatedTime:'3 weeks',level:'Degree',scheduledOffsetDays:30}
+  ];
+  const program = { level:'Sample', field:'Sample Field', units: sampleUnits, mastery:{}, exams:{} , _cache:{}};
+  saveProgram(program); saveIdx(0);
+  updateMasteryUI(); document.getElementById('setupSection').style.display='none';
+  renderUnit(0);
+});
+
+document.getElementById('startBtn').addEventListener('click', async ()=>{
+  const level = document.getElementById('programLevel').value;
+  const field = document.getElementById('fieldInput').value.trim();
+  const pacing = document.getElementById('pacingMode').value;
+  if(!field){ alert('Please enter a field of study'); return; }
+
+  const btn = document.getElementById('startBtn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+  document.getElementById('apiError').style.display = 'none';
+
+  const raw = await generateCurriculum(level, field, pacing);
+
+  btn.classList.remove('loading');
+  btn.disabled = false;
+
+  if(!raw || !raw.units){
+      if (!document.getElementById('apiError').innerText) {
+          showApiError('Failed to generate curriculum. The format from the learning service was incorrect. Please try again.');
+      }
+      return;
+  }
+  // normalize units ensure ids
+  const units = raw.units.map((u,i)=>({ id: u.id || `u${i+1}`, title:u.title||`Unit ${i+1}`, description:u.description||'', projectExample:u.projectExample||'', estimatedTime:u.estimatedTime||'', level:u.level||level, scheduledOffsetDays: u.scheduledOffsetDays ?? (i*3+2) }));
+  const program = { level, field, units, mastery:{}, exams:{}, _cache:{} };
+  saveProgram(program); saveIdx(0);
+  updateMasteryUI(); document.getElementById('setupSection').style.display='none';
+  renderUnit(0);
+});
+
+/* Mark mastered button */
+document.getElementById('markMasteredBtn').addEventListener('click', ()=>{
+  const idx = loadIdx();
+  const program = loadProgram();
+  if(!program) return;
+  const u = program.units[idx];
+  program.mastery = program.mastery || {};
+  program.mastery[u.id] = new Date().toISOString();
+  saveProgram(program);
+  saveIdx(idx+1);
+  updateMasteryUI();
+  // move to next unit if exists
+  if(idx+1 < program.units.length) renderUnit(idx+1);
+  else { alert('All units done — congratulations!'); }
+});
+
+/* Take exam now */
+document.getElementById('takeExamBtn').addEventListener('click', async ()=>{
+  const examModal = document.getElementById('examModal');
+  const examLoader = document.getElementById('examModalLoader');
+  const examBody = document.getElementById('examModalBody');
+
+  examModal.style.display = 'flex';
+  examLoader.style.display = 'block';
+  examBody.style.display = 'none';
+
+  const idx = loadIdx();
+  const program = loadProgram();
+  const unit = program.units[idx];
+  if(!unit) return;
+
+  document.getElementById('examModalHeader').innerText = `Exam: ${unit.title}`;
+
+  // generate exam if not present
+  program.exams = program.exams || {};
+  let rec = program.exams[unit.id];
+  if(!rec || !rec.exam){
+    const exam = await generateExamForUnit(unit.title);
+    if(!exam){
+        examLoader.innerHTML = '<p style="color: var(--danger);">Failed to generate exam. Please close and try again.</p>';
+        return;
+    }
+    rec = rec || {};
+    rec.exam = exam;
+    program.exams[unit.id] = rec;
+    saveProgram(program);
+  }
+
+  // render exam questions to UI (short + project)
+  const examObj = program.exams[unit.id].exam;
+  const qHtml = examObj.questions.map((q,qi)=>{
+    const placeholder = q.type === 'short' ? '2–4 sentence answer' : 'Describe your approach / mini project deliverable';
+    return `<div style="margin-bottom:12px; padding:10px; background: #fff; border-radius: 8px;"><strong>${q.question}</strong><textarea style="margin-top: 8px;" data-q="${qi}" placeholder="${placeholder}"></textarea></div>`;
+  }).join('');
+  document.getElementById('examQuestions').innerHTML = qHtml;
+
+  examLoader.style.display = 'none';
+  examBody.style.display = 'block';
+});
+
+/* Cancel exam */
+document.getElementById('cancelExamBtn').addEventListener('click', ()=>{
+  document.getElementById('examModal').style.display = 'none';
+});
+
+/* Submit exam: collect answers and call grader */
+document.getElementById('submitExamBtn').addEventListener('click', async ()=>{
+  const idx = loadIdx(); const program = loadProgram();
+  const unit = program.units[idx];
+  if(!unit) return;
+  const rec = program.exams[unit.id];
+  if(!rec || !rec.exam){ alert('No exam present.'); return; }
+  // collect answers
+  const answers = {};
+  const exam = rec.exam;
+  exam.questions.forEach((q,qi)=>{
+    const ta = document.querySelector(`#examQuestions textarea[data-q="${qi}"]`);
+    answers[q.id] = ta ? ta.value.trim() : '';
+  });
+  // save answers
+  rec.answers = answers; rec.takenAt = new Date().toISOString();
+  program.exams[unit.id] = rec; saveProgram(program);
+
+  // call grader
+  const btn = document.getElementById('submitExamBtn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  const gradeRes = await gradeExam(unit.title, exam, answers);
+
+  btn.classList.remove('loading');
+  btn.disabled = false;
+
+  if(!gradeRes){ alert('Grading failed. Please try submitting again.'); return; }
+  // store result
+  rec.result = gradeRes; rec.gradedAt = new Date().toISOString();
+  // if high enough (>=70) mark mastery automatically
+  if(gradeRes.total >= 70){
+    program.mastery = program.mastery || {};
+    program.mastery[unit.id] = new Date().toISOString();
+    alert(`You scored ${gradeRes.total} — marked as Mastered.`);
+  } else {
+    alert(`You scored ${gradeRes.total}. Review feedback and try again.`);
+  }
+  saveProgram(program);
+  document.getElementById('examModal').style.display = 'none';
+  updateMasteryUI();
+  renderUnit(idx); // re-render to update feedback button state
+});
+
+/* View feedback button */
+document.getElementById('viewFeedbackBtn').addEventListener('click', ()=>{
+  const idx = loadIdx(); const program = loadProgram();
+  const unit = program.units[idx];
+  const rec = program.exams && program.exams[unit.id];
+  if(!rec || !rec.result){ alert('No feedback yet. Take the exam first.'); return; }
+  const res = rec.result;
+  // show feedback in modal-like alert (simple)
+  const fb = `Score: ${res.total}\n\nPer-question feedback:\n` + Object.entries(res.feedback || {}).map(([k,v])=>`${k}: ${v}`).join('\n\n') + `\n\nNext steps:\n- ${ (res.nextSteps || []).join('\n- ') }`;
+  alert(fb);
+});
+
+/* export & clear */
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  const program = loadProgram();
+  if(!program){ alert('No program to export'); return; }
+  const blob = new Blob([JSON.stringify(program,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = `${program.field || 'program'}_mastery.json`; a.click();
+});
+
+document.getElementById('clearBtn').addEventListener('click', ()=>{
+  if(!confirm('Clear local program & progress? This cannot be undone.')) return;
+  remove('rac_program'); remove('rac_unit_idx'); location.reload();
+});
+
+/* On load: restore */
+window.addEventListener('DOMContentLoaded', ()=>{
+  const program = loadProgram();
+  const idx = loadIdx();
+  if(program && program.units && program.units.length){
+    document.getElementById('setupSection').style.display = 'none';
+    updateMasteryUI();
+    renderUnit(idx);
+  }
+});
+</script>
 </body>
 </html>

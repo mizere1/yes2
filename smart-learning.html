@@ -1,276 +1,1065 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Royal African College</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* Reset some defaults */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      background: #f9faff;
-      color: #000000;
-      line-height: 1.6;
-    }
-
-    header, footer {
-      text-align: center;
-      margin-bottom: 2rem;
-      color: #444;
-    }
-
-    h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      color: var(--primary-navy-blue);
-      margin-bottom: 0.5rem;
-    }
-
-    h2, h3, h4 {
-      color: var(--text-dark);
-      margin-bottom: 1.5rem;
-    }
-
-    section {
-      background: white;
-      padding: 1.5rem 2rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
-      margin-bottom: 2rem;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    input[type="text"], select {
-      width: 100%;
-      max-width: 400px;
-      padding: 0.8rem 1rem;
-      margin: 0.5rem 0 1.5rem;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      transition: all 0.3s ease;
-    }
-
-    input[type="text"]:focus, select:focus {
-      border-color: var(--accent-gold);
-      outline: none;
-      box-shadow: 0 0 5px rgba(255, 184, 28, 0.5);
-    }
-
-    button {
-      background: var(--accent-gold);
-      color: var(--primary-navy-blue);
-      border: none;
-      padding: 0.8rem 1.5rem;
-      font-size: 1.1rem;
-      font-weight: 600;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      user-select: none;
-    }
-
-    button:disabled {
-      background: #8ab1ff;
-      cursor: not-allowed;
-    }
-
-    button:hover:not(:disabled) {
-      background: #1a54cc;
-    }
-
-    #loadingCircle {
-      display: none;
-      width: 60px;
-      height: 60px;
-      border: 8px solid var(--secondary-cool-gray);
-      border-top: 8px solid var(--accent-gold);
-      border-radius: 50%;
-      animation: spin 1.5s linear infinite;
-      margin: 1rem auto;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    #semesterOutline div {
-      font-size: 1.1rem;
-      padding: 0.35rem 0;
-      border-bottom: 1px solid #eee;
-      color: #000000;
-    }
-
-    .progress-bar {
-      width: 100%;
-      height: 20px;
-      background: #e1e4eb;
-      border-radius: 15px;
-      overflow: hidden;
-      margin-top: 0.5rem;
-      box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.1);
-    }
-
-    .progress-bar-inner {
-      height: 100%;
-      background: var(--accent-gold);
-      width: 0%;
-      transition: width 0.35s ease-in-out;
-    }
-
-    #progressNote {
-      font-weight: 600;
-      margin-top: 0.3rem;
-      color: var(--primary-navy-blue);
-      user-select: none;
-    }
-
-    #dailyTaskTitle {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      color: var(--text-dark);
-      user-select: text;
-    }
-
-    #dailyExplanation {
-      white-space: pre-wrap;
-      background: var(--secondary-cool-gray);
-      padding: 1rem;
-      border-radius: 10px;
-      margin-bottom: 1.5rem;
-      max-height: 300px;
-      overflow-y: auto;
-      box-shadow: inset 0 0 8px rgba(0,0,0,0.1);
-      user-select: text;
-    }
-
-    #videos iframe {
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      margin-bottom: 1rem;
-    }
-
-    #exerciseSection ul {
-      list-style-type: disc;
-      padding-left: 1.5rem;
-      margin-top: 0.5rem;
-      user-select: text;
-    }
-
-    #exerciseSection ul li {
-      margin-bottom: 0.5rem;
-    }
-
-    #exerciseSection ul li a {
-      color: #0000FF;
-      text-decoration: none;
-      transition: color 0.25s ease;
-    }
-
-    #exerciseSection ul li a:hover {
-      text-decoration: underline;
-      color: #0000FF;
-    }
-
-    footer {
-      font-size: 0.9rem;
-      color: #888;
-      margin-top: 3rem;
-      user-select: none;
-    }
-
-    #moduleInput {
-      margin-bottom: 1rem;
-    }
-
-    #submitModuleBtn {
-      margin-bottom: 1rem;
-    }
-
-    @media (max-width: 600px) {
-      #dailyExplanation {
-        max-height: 250px;
-      }
-      iframe {
-        max-width: 100%;
-        height: 200px;
-      }
-      input[type="text"], select {
-        max-width: 100%;
-      }
-      section {
-        padding: 1rem 1rem;
-      }
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Royal African College — Learning Platform (Production-ready)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#f7f9fc; --card:#ffffff; --accent:#0066ff; --accent-2:#00b4ff; --text:#1d2c3d; --muted:#5a6f87; --border:#e6eef7; --ok:#28a745; --danger:#dc3545 }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background:var(--bg); color:var(--text); margin:0; padding:28px}
+  .container{max-width:1100px;margin:0 auto}
+  header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+  h1{margin:0;font-size:22px;line-height:1.1}
+  .sub{color:var(--muted);font-size:13px;margin-top:6px}
+  .section{background:var(--card);border-radius:12px;padding:18px;margin-bottom:18px;box-shadow:0 6px 18px rgba(17,24,39,0.06)}
+  label{display:block;color:var(--muted);font-weight:600;margin-bottom:8px}
+  input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);font-size:14px}
+  .grid{display:grid;grid-template-columns:1fr 360px;gap:20px}
+  .btn{background:linear-gradient(45deg,var(--accent),var(--accent-2));color:#fff;padding:10px 14px;border-radius:9px;border:0;font-weight:700;cursor:pointer}
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
+  .btn.secondary{background:#475569}
+  .btn.small{padding:8px 10px;font-size:13px}
+  .btn:disabled{opacity:0.55;cursor:not-allowed}
+  .tag{display:inline-block;padding:6px 10px;border-radius:999px;background:#eaf6ff;color:var(--accent);font-weight:700}
+  .mastery-list{max-height:360px;overflow:auto;border-radius:8px;border:1px solid var(--border);padding:8px;background:#fff}
+  .card{background:#fbfdff;padding:14px;border-radius:10px;border:1px solid #eef6ff}
+  .read-grid{display:grid;grid-template-columns:1fr;gap:10px}
+  .read-card{padding:10px;border-radius:8px;border:1px solid #eef2ff;background:#fff}
+  .small{font-size:13px;color:var(--muted)}
+  .progress{height:14px;background:#eef2ff;border-radius:999px;overflow:hidden}
+  .progress-inner{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0}
+  .interactive-reply{width:100%;min-height:90px;padding:10px;border-radius:8px;border:1px solid var(--border);font-size:14px}
+  .interactive-feedback-box{margin-top:12px;padding:12px;border-radius:8px;background:#f7fbff;border:1px solid var(--border)}
+  .hidden{display:none}
+  .controls{display:flex;gap:8px;align-items:center}
+  .meta{font-size:13px;color:var(--muted);margin-top:8px}
+  .exam-modal{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(10,20,30,0.6);display:none;align-items:center;justify-content:center;z-index:999}
+  .exam-body{background:var(--card);padding:18px;border-radius:10px;width:95%;max-width:900px;max-height:90vh;overflow:auto}
+  .toast{position:fixed;right:20px;bottom:20px;background:#111827;color:#fff;padding:10px 14px;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.2);display:none}
+  @media (max-width:900px){.grid{grid-template-columns:1fr} .mastery-list{max-height:200px}}
+</style>
 </head>
-<body class="smart-learning-page">
+<body>
+<div class="container" role="main">
   <header>
-    <a href="index.html" class="logo"><img src="logo.png" alt="Royal African College Logo" style="height: 40px;"></a>
-    <h1>Royal African College</h1>
-    <p>Accelerated AI-driven Semester Education</p>
+    <div>
+      <h1>Royal African College — Learning Studio</h1>
+      <div class="sub">Self-Paced • Competency-Based • Project-First — Production-ready demo</div>
+    </div>
+    <div class="small">v1.2 — local fallback enabled</div>
   </header>
 
-  <section id="courseSection">
-    <h2>Begin Your Learning Journey</h2>
-    <label for="courseType">Choose Program</label>
-    <select id="courseType">
-      <option value="">-- Select --</option>
-      <option value="Diploma">Diploma</option>
-      <option value="Degree">Degree</option>
-    </select>
-    <input type="text" id="fieldInput" placeholder="Enter field of study">
-    <button id="startBtn">Start Program</button>
-    <div id="loadingCircle"></div>
-    <div id="loading-message" class="hidden">Please wait, program upload in process...</div>
-  </section>
+  <section class="section" id="setupSection" aria-labelledby="setup">
+    <div id="apiError" class="meta" role="alert" style="color:var(--danger);display:none"></div>
+    <div class="grid">
+      <div>
+        <label for="programLevel">Program Level</label>
+        <select id="programLevel" aria-label="program-level">
+          <option>Certificate</option>
+          <option>Diploma</option>
+          <option>Degree</option>
+          <option>Masters</option>
+          <option>PhD</option>
+        </select>
 
-  <section id="scheduleSection" class="hidden">
-    <h2>Semester Plan (3 Months)</h2>
-    <div id="semesterOutline"></div>
-    <button id="nextDayBtn" class="hidden">Continue Next Day</button>
-  </section>
+        <label for="fieldInput">Field of Study</label>
+        <input id="fieldInput" type="text" placeholder="e.g. Computer Science, Data Science" aria-label="field-of-study" />
 
-  <section id="learningSection" class="hidden">
-    <h2>Student Progress</h2>
-    <div class="progress-bar">
-      <div id="progressBarInner" class="progress-bar-inner"></div>
+        <label for="pacingMode">Pacing</label>
+        <select id="pacingMode">
+          <option value="traditional">Traditional (time-based)</option>
+          <option value="self-directed">Self-Directed (goal-based)</option>
+        </select>
+
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button id="startBtn" class="btn" aria-live="polite">Generate Curriculum</button>
+          <button id="sampleBtn" class="btn secondary">Load Sample</button>
+          <button id="demoOfflineBtn" class="btn ghost small">Demo / Offline Mode</button>
+        </div>
+
+        <div class="meta">Tip: If the AI service is unavailable the system will use a local, deterministic generator so your learning flow remains realistic and usable.</div>
+      </div>
+
+      <aside>
+        <div><strong>Mastery Map</strong></div>
+        <div id="masteryMap" class="mastery-list" aria-live="polite" style="margin-top:10px">
+          <div class="small">No program yet — generate or load sample to begin.</div>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end">
+          <button id="exportBtn" class="btn ghost small">Export</button>
+          <button id="clearBtn" class="btn ghost small">Clear</button>
+        </div>
+      </aside>
     </div>
-    <div id="progressNote">Progress: 0%</div>
-
-    <h3>Today's Module</h3>
-    <input type="text" id="moduleInput" placeholder="Enter module name" class="hidden">
-    <button id="submitModuleBtn" class="hidden">Load Module Content</button>
-    <h4 id="dailyTaskTitle"></h4>
-    <div id="dailyExplanation">Loading detailed explanation...</div>
-
-    <h3>Related Videos</h3>
-    <div id="videos"></div>
-
-    <h3>Suggested Reading Materials</h3>
-    <div id="exerciseSection"></div>
   </section>
 
-  <button id="startOverBtn" class="hidden">Start Over</button>
+  <section id="overviewSection" class="section hidden" aria-labelledby="overview-heading">
+    <h2 id="overview-heading" style="margin-bottom: 1rem;">Curriculum Overview</h2>
+    <div id="overviewList" class="mastery-list" style="max-height: 500px; margin-bottom: 1rem;">
+      <!-- Unit list will be populated here -->
+    </div>
+    <button id="startLearningBtn" class="btn">Start Learning</button>
+  </section>
 
-  <footer>
-    <p>© 2025 Smart University Learning. All rights reserved.</p>
+  <section id="unitSection" class="section hidden" aria-hidden="true">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div id="unitTitle" style="font-weight:700">Unit</div>
+        <div class="small" id="unitMeta">Level • Duration</div>
+      </div>
+      <div class="controls">
+        <div id="statusTag" class="tag" aria-live="polite">In progress</div>
+        <button id="prevLessonBtn" class="btn ghost small">◀ Prev</button>
+        <button id="nextLessonBtn" class="btn ghost small">Next ▶</button>
+        <button id="markMasteredBtn" class="btn">Mark Mastered & Next Unit</button>
+      </div>
+    </div>
+
+    <div class="card" id="explanationCard" style="margin-top:12px">
+      <div style="display:flex;gap:16px;align-items:flex-start">
+        <div style="flex:1;min-width:0">
+          <div id="explanationHTML">Start a program or load sample to see interactive lessons.</div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button id="continueButton" class="btn small" style="display:none">Continue →</button>
+            <button id="skipLessonBtn" class="btn ghost small">Skip Lesson</button>
+            <button id="collapseBtn" class="btn ghost small">Collapse</button>
+          </div>
+        </div>
+
+        <div style="width:320px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="small">Program Progress</div>
+            <div id="progressPct" class="small">0%</div>
+          </div>
+          <div class="progress" aria-hidden="true"><div id="progressInner" class="progress-inner"></div></div>
+
+          <div style="margin-top:12px">
+            <div class="small">Scheduled Exam</div>
+            <div id="examInfo" class="small">—</div>
+            <div style="margin-top:8px;display:flex;gap:8px">
+              <button id="takeExamBtn" class="btn ghost small">Take Test</button>
+              <button id="viewFeedbackBtn" class="btn ghost small">View Feedback</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="projectSection" class="card hidden" aria-hidden="true" style="margin-top:12px">
+      <div style="font-weight:700">Project Example</div>
+      <div id="projectExample" class="small" style="margin-top:8px">—</div>
+      <div style="margin-top:10px"><button id="openProjectRepo" class="btn ghost small">Open Project</button></div>
+    </div>
+
+    <div id="readingsSection" class="card hidden" aria-hidden="true" style="margin-top:12px">
+      <div style="font-weight:700">Suggested Readings</div>
+      <div id="readingGrid" class="read-grid" style="margin-top:8px"></div>
+    </div>
+
+    <div id="videosSection" class="card hidden" aria-hidden="true" style="margin-top:12px">
+      <div style="font-weight:700">Short Videos</div>
+      <div id="videos" class="small" style="margin-top:8px">—</div>
+    </div>
+
+    <div id="homeworkSection" class="card hidden" aria-hidden="true" style="margin-top:12px">
+      <div style="font-weight:700">Homework Assignment</div>
+      <div id="homework" class="small" style="margin-top:8px; white-space: pre-wrap;">—</div>
+    </div>
+  </section>
+
+  <section id="semesterCompleteSection" class="section hidden" aria-labelledby="semester-complete-heading">
+    <h2 id="semester-complete-heading">Semester Complete!</h2>
+    <p>Congratulations on mastering all units for this semester. Please contact Royal African College for your official semester examinations.</p>
+    <div style="margin-top: 1rem;">
+      <button id="nextSemesterBtn" class="btn">Proceed to Next Semester</button>
+    </div>
+  </section>
+
+  <section id="programCompleteSection" class="section hidden" aria-labelledby="program-complete-heading">
+    <h2 id="program-complete-heading">Program Complete!</h2>
+    <p>You have successfully mastered all semesters for your program. Congratulations! Please contact Royal African College to arrange for your final certification.</p>
+  </section>
+
+  <footer class="section" style="text-align:center">
+    <div class="small">© Royal African College — demo. For production run behind secure API gateway and proper keys.</div>
   </footer>
+</div>
 
-  <script src="smart-learning-script.js"></script>
+<!-- Exam Modal -->
+<div id="examModal" class="exam-modal" role="dialog" aria-modal="true" aria-labelledby="examTitle">
+  <div class="exam-body">
+    <div id="examHeader" style="font-weight:700;margin-bottom:10px">Preparing exam…</div>
+    <div id="examQuestionsContainer"></div>
+    <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+      <button id="submitExamBtn" class="btn">Submit Exam</button>
+      <button id="cancelExamBtn" class="btn ghost">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* -------------------------
+   Configuration & keys (move these to secure server in production)
+   -------------------------*/
+const GEMINI_API_KEYS = [
+  "AIzaSyBy93HTPV7fk-XCUmukQJsWTxHcvYDWEeQ", // Primary
+  "AIzaSyCD0aLp0KJdBYcAE33AsC3fJUYjjzgWMhY"  // Alternate
+];
+let currentApiKeyIndex = 0;
+const YOUTUBE_API_KEYS = [
+    "AIzaSyA0SxBg-UrxkRroy3lre6bziHFwFOAs3tI", // Primary
+    "AIzaSyCLwnB7ZXls_ZFzsPKLvIIPJhU60PdmkaY"  // Alternate
+];
+let currentYoutubeKeyIndex = 0;
+const STORAGE_KEY = 'rac_program_v1.3';
+const PROGRESS_KEY = 'rac_progress_v1.3';
+let currentExamContext = null;
+
+/* -------------------------
+   Storage helpers
+   -------------------------*/
+function save(key,data){localStorage.setItem(key,JSON.stringify(data))}
+function load(key){try{return JSON.parse(localStorage.getItem(key)||'null')}catch(e){return null}}
+function remove(key){localStorage.removeItem(key)}
+function saveProgress(p){ save(PROGRESS_KEY, p) }
+function loadProgress(){ return load(PROGRESS_KEY) ?? { semester: 0, unit: 0 } }
+
+
+/* -------------------------
+   Toast helper
+   -------------------------*/
+function toast(msg, timeout=3000){ const t=document.getElementById('toast'); t.innerText=msg; t.style.display='block'; setTimeout(()=>t.style.display='none',timeout); }
+
+/* -------------------------
+   Local fallback generators (deterministic, realistic)
+   -------------------------*/
+function localGenerateCurriculum(level, field, pacing){
+  const base = [
+    {id:'u1',title:`${field}: Onboarding & Diagnostic`,description:'Baseline assessment and personalised learning plan',projectExample:'Personal learning dashboard',estimatedTime:'3 days',level,scheduledOffsetDays:1},
+    {id:'u2',title:`Foundations of ${field}`,description:'Core principles and fundamentals',projectExample:'Mini project',estimatedTime:'1-2 weeks',level,scheduledOffsetDays:6},
+    {id:'u3',title:`Applied ${field} Methods`,description:'Practical application with data and tools',projectExample:'Applied mini-project',estimatedTime:'2 weeks',level,scheduledOffsetDays:16},
+    {id:'u4',title:`Capstone Project`,description:'Integrate learnings into a final deliverable',projectExample:'Capstone repository',estimatedTime:'3-4 weeks',level,scheduledOffsetDays:30}
+  ];
+  return {level,field,units:base,mastery:{},exams:{},_cache:{},generatedAt:new Date().toISOString()};
+}
+
+function localGenerateExam(unitTitle){
+  return { examId:`ex_${unitTitle.replace(/\s+/g,'_')}`, questions:[
+    {id:'q1',type:'short',question:`Explain the core idea behind ${unitTitle}.`,answer:'A concise model answer describing main idea.'},
+    {id:'q2',type:'project',question:`Design a small project that demonstrates what you learned in ${unitTitle}.`,expected:'A project outline, data sources and success criteria.'}
+  ]};
+}
+
+function localGradeExam(unitTitle, exam, answers){
+  const scores = {};
+  let total = 0;
+  exam.questions.forEach(q=>{
+    const ans = (answers[q.id]||'').trim();
+    const sc = ans.length>200?90: ans.length>50?70: ans.length>10?50:10;
+    scores[q.id]=sc;
+    total += sc;
+  });
+  total = Math.round(total / exam.questions.length);
+  const feedback = {};
+  exam.questions.forEach(q=>{
+    const ans = (answers[q.id]||'').trim();
+    if(!ans) feedback[q.id] = 'No answer provided. Please attempt this question.';
+    else if(ans.length<30) feedback[q.id] = 'Partial answer. Expand with concrete examples and concise arguments.';
+    else feedback[q.id] = 'Good start. Add a concrete example or a metric to strengthen your response.';
+  });
+  return { scores, total, feedback, nextSteps:[`Revisit key examples for ${unitTitle}`, 'Add concrete project milestones', 'Resubmit after revision'] };
+}
+
+function localTutorFeedback(question, answer){
+  if(!answer.trim()) return 'Please try answering — even a short attempt helps. Focus on 1–2 key points.';
+  if(answer.trim().length < 40) return 'Nice start! Try adding an example or why that idea matters.';
+  return 'Good explanation. Consider adding a concrete example or a short diagram to support your point.';
+}
+
+/* -------------------------
+   Small helpers (markdown-lite + interactive handling)
+   -------------------------*/
+function splitIntoLessons(text){ if(!text) return []; const parts = text.split(/\n\n+/).map(s=>s.trim()).filter(Boolean); return parts; }
+function renderMarkdownLite(md){ if(!md) return ''; return md.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br/>'); }
+
+/* -------------------------
+   API wrappers (safe fallbacks) - in production move calls to backend
+   -------------------------*/
+async function callGemini(prompt) {
+  let attempts = 0;
+  while (attempts < GEMINI_API_KEYS.length) {
+    const apiKey = GEMINI_API_KEYS[currentApiKeyIndex];
+    if (!apiKey) {
+      currentApiKeyIndex = (currentApiKeyIndex + 1) % GEMINI_API_KEYS.length;
+      attempts++;
+      continue;
+    }
+
+    try {
+      console.log(`Attempting to call Gemini with API key index: ${currentApiKeyIndex}`);
+      const model = 'gemini-1.5-flash';
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      const body = { contents: [{ parts: [{ text: prompt }] }] };
+      const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+
+      if (res.status === 429 || res.status === 403) {
+        console.warn(`Key index ${currentApiKeyIndex} failed with status ${res.status}. Rotating key.`);
+        currentApiKeyIndex = (currentApiKeyIndex + 1) % GEMINI_API_KEYS.length;
+        attempts++;
+        continue;
+      }
+
+      if (!res.ok) {
+        throw new Error(`API request failed with status ${res.status}`);
+      }
+
+      const json = await res.json();
+      return json?.candidates?.[0]?.content?.parts?.[0]?.text ?? null;
+
+    } catch (e) {
+      console.warn(`Error with key index ${currentApiKeyIndex}:`, e);
+      currentApiKeyIndex = (currentApiKeyIndex + 1) % GEMINI_API_KEYS.length;
+      attempts++;
+    }
+  }
+
+  console.error("All Gemini API keys failed.");
+  return null; // All keys failed
+}
+
+async function searchYouTube(q) {
+  let attempts = 0;
+  while (attempts < YOUTUBE_API_KEYS.length) {
+    const apiKey = YOUTUBE_API_KEYS[currentYoutubeKeyIndex];
+    if (!apiKey) {
+      currentYoutubeKeyIndex = (currentYoutubeKeyIndex + 1) % YOUTUBE_API_KEYS.length;
+      attempts++;
+      continue;
+    }
+
+    try {
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(q)}&type=playlist&maxResults=2&key=${apiKey}`;
+      const res = await fetch(url);
+
+      if (res.status === 429 || res.status === 403) {
+        console.warn(`YouTube key index ${currentYoutubeKeyIndex} failed. Rotating.`);
+        currentYoutubeKeyIndex = (currentYoutubeKeyIndex + 1) % YOUTUBE_API_KEYS.length;
+        attempts++;
+        continue;
+      }
+
+      if (!res.ok) throw new Error(`YouTube API error: ${res.status}`);
+
+      const json = await res.json();
+      return json.items || [];
+    } catch (e) {
+      console.warn(`Error with YouTube key index ${currentYoutubeKeyIndex}:`, e);
+      currentYoutubeKeyIndex = (currentYoutubeKeyIndex + 1) % YOUTUBE_API_KEYS.length;
+      attempts++;
+    }
+  }
+  console.error("All YouTube API keys failed.");
+  return [];
+}
+
+/* -------------------------
+   UI state & flow
+   -------------------------*/
+function saveProgram(program){ save(STORAGE_KEY,program) }
+function loadProgram(){ return load(STORAGE_KEY) }
+
+function updateMasteryUI(){
+  const program = loadProgram();
+  const list = document.getElementById('masteryMap');
+  list.innerHTML = '';
+  if (!program || !program.semesters) {
+    list.innerHTML = '<div class="small">No program loaded</div>';
+    return;
+  }
+
+  program.semesters.forEach(semester => {
+    list.innerHTML += `<div style="padding: 8px; background: #e6eef7; font-weight: 700; margin-top: 8px;">Semester ${semester.semester}</div>`;
+    semester.units.forEach(u => {
+      const mastered = program.mastery && program.mastery[u.id];
+      const exam = program.exams && program.exams[u.id];
+      let status = '<span class="small">Pending</span>';
+      let score = '';
+      let time = '';
+      if (mastered) {
+        status = '<span style="color:var(--ok)">Mastered</span>';
+        time = new Date(mastered).toLocaleDateString();
+      } else if (exam && exam.result) {
+        status = '<span style="color:orange">Exam taken</span>';
+        score = ` • ${exam.result.total}%`;
+        time = exam.gradedAt ? new Date(exam.gradedAt).toLocaleDateString() : '';
+      }
+      list.innerHTML += `
+        <div style="padding:10px;border-bottom:1px solid #f3f6fb">
+          <div style="display:flex;justify-content:space-between">
+            <div><strong>${u.title}</strong></div>
+            <div style="text-align:right">
+              <div class="small">${status}${score}</div>
+              <div class="small">${time}</div>
+            </div>
+          </div>
+        </div>`;
+    });
+  });
+}
+
+function renderProgress(pct, idx, total){ document.getElementById('progressInner').style.width = pct + '%'; document.getElementById('progressPct').innerText = `${pct}% (${idx}/${total})`; }
+
+/* Render unit and lessons (socratic flow) */
+async function renderUnit() {
+  const program = loadProgram();
+  if (!program) return;
+
+  const progress = loadProgress();
+  saveProgress(progress); // Save to keep it consistent
+
+  const semester = program.semesters[progress.semester];
+  if (!semester) {
+    console.error("Semester not found for progress:", progress);
+    return;
+  }
+  const unit = semester.units[progress.unit];
+  if (!unit) {
+    console.error("Unit not found for progress:", progress);
+    return;
+  }
+
+  // Ensure all other major sections are hidden
+  document.getElementById('unitSection').classList.remove('hidden');
+  document.getElementById('semesterCompleteSection').classList.add('hidden');
+  document.getElementById('programCompleteSection').classList.add('hidden');
+  document.getElementById('overviewSection').classList.add('hidden');
+  document.getElementById('setupSection').style.display = 'none';
+
+
+  document.getElementById('unitTitle').innerText = `S${progress.semester + 1} U${progress.unit + 1}: ${unit.title}`;
+  document.getElementById('unitMeta').innerText = `${program.level} • ${unit.estimatedTime || 'N/A'}`;
+  document.getElementById('projectExample').innerText = unit.projectExample || '—';
+
+  ['projectSection', 'readingsSection', 'videosSection', 'homeworkSection'].forEach(id => {
+    document.getElementById(id).classList.add('hidden');
+  });
+
+  program.exams = program.exams || {};
+  let examRec = program.exams[unit.id] || {};
+  document.getElementById('examInfo').innerHTML = `Scheduled: <strong>${examRec.scheduledAt ? new Date(examRec.scheduledAt).toLocaleString() : 'N/A'}</strong>`;
+  document.getElementById('viewFeedbackBtn').disabled = !examRec.result;
+
+  program._cache = program._cache || {};
+  const cachedContent = program._cache[unit.id]?.lessonContent;
+
+  const renderSupplemental = async (content) => {
+    if (content.readingTopics && content.readingTopics.length > 0) renderReadings(content.readingTopics);
+    else document.getElementById('readingsSection').classList.add('hidden');
+
+    const videosContainer = document.getElementById('videos');
+    videosContainer.innerHTML = '<div class="small">Searching for playlists…</div>';
+    const query = content.videoSearchQueries?.[0] || unit.title;
+    const playlists = await searchYouTube(query);
+    const validPlaylists = playlists.filter(pl => pl.id && pl.id.playlistId);
+
+    if (validPlaylists.length > 0) {
+        videosContainer.innerHTML = validPlaylists.map(pl => {
+            const playlistId = pl.id.playlistId;
+            const playlistTitle = pl.snippet.title;
+            return `<div style="margin-top:8px">
+                      <strong>${playlistTitle}</strong>
+                      <iframe src="https://www.youtube.com/embed/videoseries?list=${playlistId}"
+                              title="${playlistTitle}"
+                              loading="lazy"
+                              style="width:100%;height:200px;border:0;border-radius:8px;margin-top:4px;">
+                      </iframe>
+                    </div>`;
+        }).join('');
+    } else {
+        videosContainer.innerHTML = '<div class="small">No relevant playlists found.</div>';
+    }
+
+    document.getElementById('homework').innerText = content.homework;
+  };
+
+  if (cachedContent) {
+    unit.lessons = splitIntoLessons(cachedContent.explanation);
+    if(cachedContent.summaryQuestion) unit.lessons.push(cachedContent.summaryQuestion);
+    unit.lesson_progress = 0;
+    saveProgram(program);
+    renderCurrentLesson();
+    renderSupplemental(cachedContent);
+  } else {
+    document.getElementById('explanationHTML').innerHTML = '<div class="small">Loading AI-powered lesson…</div>';
+    const prompt = `
+Generate a structured learning module for a ${program.level} student in ${program.field} on the topic of "${unit.title}".
+The output MUST be a single, valid JSON object.
+The JSON object must have keys: "explanation", "videoSearchQueries", "readingTopics", "homework", "summaryQuestion".
+- "explanation": String of 2-3 paragraphs, each ending with a question. Use \\n\\n for newlines.
+- "videoSearchQueries": Array of 2 YouTube search query strings.
+- "readingTopics": Array of 2-3 short, specific topics for the student to research on Google or ChatGPT.
+- "homework": String with a small assignment.
+- "summaryQuestion": A single summary question.`;
+
+    try {
+      const aiRaw = await callGemini(prompt);
+      if (!aiRaw) throw new Error("API did not return lesson content.");
+      const content = extractJsonFromText(aiRaw);
+      if (!content?.explanation || !content.videoSearchQueries || !content.readingTopics || !content.homework || !content.summaryQuestion) {
+        throw new Error("AI returned malformed lesson content.");
+      }
+
+      program._cache[unit.id] = { ...program._cache[unit.id], lessonContent: content };
+      unit.lessons = splitIntoLessons(content.explanation);
+      if(content.summaryQuestion) unit.lessons.push(content.summaryQuestion);
+      unit.lesson_progress = 0;
+      saveProgram(program);
+      renderCurrentLesson();
+      renderSupplemental(content);
+
+    } catch (e) {
+      console.warn('Lesson generation failed', e);
+      document.getElementById('explanationHTML').innerHTML = '<div class="card" style="border-color:var(--danger);"><strong style="color:var(--danger);">LESSONS not READY</strong><div class="small" style="margin-top:8px;">The AI service is currently unavailable. Please come back later.</div></div>';
+    }
+  }
+
+  let totalUnits = 0;
+  let completedUnits = 0;
+  program.semesters.forEach(s => {
+      totalUnits += s.units.length;
+      s.units.forEach(u => {
+          if (program.mastery[u.id]) completedUnits++;
+      });
+  });
+  const pct = totalUnits > 0 ? Math.round((completedUnits / totalUnits) * 100) : 0;
+  renderProgress(pct, completedUnits, totalUnits);
+  updateMasteryUI();
+}
+
+function renderCurrentLesson() {
+  const program = loadProgram();
+  const progress = loadProgress();
+  const unit = program.semesters[progress.semester]?.units[progress.unit];
+  if (!unit) return;
+
+  const lessons = unit.lessons || [];
+  const lessonProgress = unit.lesson_progress || 0;
+  const container = document.getElementById('explanationHTML');
+  if (lessonProgress === 0) container.innerHTML = '';
+
+  if (lessonProgress >= lessons.length) {
+    container.innerHTML += `<div class="card" style="margin-top:12px"><h4>Lesson complete</h4><p class="small">Explore the project, readings, and videos below.</p></div>`;
+    ['projectSection', 'readingsSection', 'videosSection', 'homeworkSection'].forEach(id => {
+      document.getElementById(id).classList.remove('hidden');
+    });
+    return;
+  }
+  const current = lessons[lessonProgress];
+  const lessonNode = document.createElement('div');
+  lessonNode.style.marginTop = '12px';
+  lessonNode.innerHTML = `<div><div class="small">${renderMarkdownLite(current)}</div></div>`;
+
+  if (current.includes('?')) {
+    const qContainer = document.createElement('div');
+    qContainer.style.marginTop = '10px';
+    qContainer.innerHTML = `<textarea class='interactive-reply' placeholder='Type your thoughts (press Ctrl+Enter to submit)'></textarea>
+                            <button class='btn small' style='margin-left:8px;'>Submit Answer</button>
+                            <button class='btn ghost small' style='margin-left:8px;'>Skip</button>
+                            <div class='interactive-feedback-box hidden'></div>`;
+    lessonNode.appendChild(qContainer);
+
+    const ta = qContainer.querySelector('textarea');
+    const submitBtn = qContainer.querySelectorAll('button')[0];
+    const skipBtn = qContainer.querySelectorAll('button')[1];
+    const feedbackBox = qContainer.querySelector('.interactive-feedback-box');
+
+    const advanceLesson = () => {
+      unit.lesson_progress = (unit.lesson_progress || 0) + 1;
+      saveProgram(program);
+      renderCurrentLesson();
+    };
+
+    submitBtn.addEventListener('click', async () => {
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Checking…';
+      const feedback = await getTutorFeedback(current, ta.value);
+      feedbackBox.innerHTML = `<div>${renderMarkdownLite(feedback)}</div><div style="margin-top:8px"><button class='btn small' id='nextAfterFeedback'>Continue →</button></div>`;
+      feedbackBox.classList.remove('hidden');
+      feedbackBox.querySelector('#nextAfterFeedback').addEventListener('click', advanceLesson);
+      submitBtn.disabled = false;
+      submitBtn.innerText = 'Submit Answer';
+    });
+
+    skipBtn.addEventListener('click', advanceLesson);
+    ta.addEventListener('keydown', (e) => { if (e.ctrlKey && e.key === 'Enter') { e.preventDefault(); submitBtn.click(); } });
+  } else {
+    lessonNode.innerHTML += `<div style="margin-top:10px"><button class='btn small'>Next</button></div>`;
+    lessonNode.querySelector('button').addEventListener('click', () => {
+      unit.lesson_progress = (unit.lesson_progress || 0) + 1;
+      saveProgram(program);
+      renderCurrentLesson();
+    });
+  }
+
+  container.appendChild(lessonNode);
+  lessonNode.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+/* readings render */
+function renderReadings(topics) {
+  const container = document.getElementById('readingGrid');
+  if (!topics || topics.length === 0) {
+    container.innerHTML = '<div class="small">No reading topics for this unit.</div>';
+    return;
+  }
+
+  let html = '<p class="small">Please go to Google or ChatGPT, read about the following topics, and write short notes to share with me later:</p>';
+  html += '<ul style="padding-left: 20px; margin-top: 8px;">';
+  html += topics.map(topic => `<li class="small" style="margin-bottom: 4px;">${topic}</li>`).join('');
+  html += '</ul>';
+
+  container.innerHTML = html;
+}
+
+/* Tutor feedback wrapper */
+async function getTutorFeedback(question, answer){
+  const program = loadProgram() || {};
+  const prompt = `As an AI tutor for a ${program.level} student in ${program.field}, provide concise, constructive feedback on the student's answer. Question: "${question}". Student's answer: "${answer}". If the answer is empty or very short, gently encourage them to elaborate.`;
+  const ai = await callGemini(prompt);
+  if(ai) return ai;
+  return "The AI tutor is currently unavailable. Please try again in a moment.";
+}
+
+/* -------------------------
+   Exam flow (completed)
+   -------------------------*/
+
+/**
+ * Safely extract a JSON substring from text that may contain markdown fences or surrounding text.
+ * Returns parsed object or null.
+ */
+function extractJsonFromText(text){
+  if(!text || typeof text !== 'string') return null;
+  // Try to find code fences first
+  const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+  const candidate = fenceMatch ? fenceMatch[1] : text;
+  // Find first { ... } block (simple)
+  const firstBrace = candidate.indexOf('{');
+  const lastBrace = candidate.lastIndexOf('}');
+  if(firstBrace >= 0 && lastBrace > firstBrace){
+    const jsonStr = candidate.slice(firstBrace, lastBrace + 1);
+    try { return JSON.parse(jsonStr); } catch(e){ /* fallthrough */ }
+  }
+  // As a last resort attempt a direct parse
+  try { return JSON.parse(candidate); } catch(e){ return null; }
+}
+
+async function openExamModal(isFinal = false){
+  const program = loadProgram();
+  if (!program) return;
+
+  const progress = loadProgress();
+  const unit = isFinal ? null : program.semesters[progress.semester].units[progress.unit];
+  const unitTitle = isFinal ? `Final Exam for ${program.field}` : unit.title;
+  const examRecordKey = isFinal ? 'final_exam' : unit.id;
+
+  currentExamContext = {
+    isFinal,
+    recordKey: examRecordKey,
+    title: unitTitle,
+    level: program.level,
+    field: program.field,
+    unitTitles: isFinal ? program.semesters.flatMap(s => s.units.map(u => u.title)) : null
+  };
+
+  const modal = document.getElementById('examModal');
+  modal.style.display='flex';
+  document.getElementById('examHeader').innerText = `Test: ${unitTitle}`;
+
+  program.exams = program.exams || {};
+  let rec = program.exams[examRecordKey] || { scheduledAt: new Date().toISOString(), exam:null, answers:null, result:null };
+
+  const qContainer = document.getElementById('examQuestionsContainer');
+  qContainer.innerHTML = '';
+
+  if(!rec.exam){
+    document.getElementById('examHeader').innerText = `Preparing Test for: ${unitTitle}…`;
+    document.getElementById('submitExamBtn').disabled = true;
+    qContainer.innerHTML = '<div class="small">Generating structured questions with AI…</div>';
+
+    let exam = null;
+    try {
+        let prompt;
+        if (isFinal) {
+          prompt = `Create a comprehensive final test in JSON format for a ${program.level} program in ${program.field}. The test should cover all of the following units: ${currentExamContext.unitTitles.join(', ')}. The output MUST be a valid JSON object with a "questions" array of at least 5 questions.`;
+        } else {
+          prompt = `Create a structured test for the unit titled "${unit.title}". The program is at the ${program.level} level in ${program.field}. Output MUST be a valid JSON object with a top-level "questions" array. Each question object should include: "id" (e.g., "q1"), "type" ('short'|'project'), "question" (string).`;
+        }
+        const aiRaw = await callGemini(prompt);
+        if (!aiRaw) throw new Error("API did not return test content.");
+
+        const parsed = extractJsonFromText(aiRaw);
+        if (parsed && Array.isArray(parsed.questions) && parsed.questions.length > 0) {
+            exam = parsed;
+        } else {
+            throw new Error("Failed to parse a valid test from AI response.");
+        }
+    } catch(e) {
+        console.warn('AI test generation error', e);
+    }
+
+    if(exam){
+      rec.exam = exam;
+      program.exams[examRecordKey] = rec;
+      saveProgram(program);
+      document.getElementById('examHeader').innerText = `Test: ${unitTitle}`;
+      document.getElementById('submitExamBtn').disabled = false;
+    } else {
+      document.getElementById('examHeader').innerText = 'Error Preparing Test';
+      qContainer.innerHTML = `<div class="small" style="color:var(--danger)">Could not prepare the test. The AI service may be unavailable. Please close this and try again later.</div>`;
+      return;
+    }
+  }
+
+  const html = rec.exam.questions.map((q,qi)=>{
+    const placeholder = q.type==='short' ? '2–4 sentences' : 'Project approach / deliverable';
+    return `<div style="margin-bottom:12px;padding:10px;background:#fff;border-radius:8px"><strong>${qi + 1}. ${q.question}</strong><textarea data-q="${q.id}" style="margin-top:8px;width:100%;min-height:90px" placeholder="${placeholder}"></textarea></div>`;
+  }).join('');
+  document.getElementById('examQuestionsContainer').innerHTML = html;
+  program.exams[examRecordKey] = rec;
+  saveProgram(program);
+}
+
+async function openFinalExamModal() {
+  await openExamModal(true);
+}
+
+async function submitExam(){
+  if (!currentExamContext) return alert('Error: No exam context found.');
+
+  const program = loadProgram();
+  if(!program) return;
+
+  const { isFinal, recordKey, title } = currentExamContext;
+  const rec = program.exams && program.exams[recordKey];
+  if(!rec || !rec.exam) return alert('No exam available');
+
+  const answers = {};
+  rec.exam.questions.forEach(q=>{
+    const ta = document.querySelector(`[data-q='${q.id}']`);
+    if(ta) answers[q.id] = ta.value.trim();
+    else {
+      const radio = document.querySelector(`input[name="${q.id}"]:checked`);
+      answers[q.id] = radio ? radio.value : '';
+    }
+  });
+  rec.answers = answers;
+  rec.takenAt = new Date().toISOString();
+  program.exams[recordKey]=rec;
+  saveProgram(program);
+
+  toast('Grading test with AI...');
+  document.getElementById('submitExamBtn').disabled = true;
+
+  let gradeRes = null;
+  try {
+    const gradePrompt = `Grade this test based on the provided answers. The test is for "${title}". Return ONLY a valid JSON object with this structure: { "scores": { "q1": 85, ... }, "total": number (average score), "feedback": { "q1": "Great explanation...", ... }, "nextSteps": ["string1", "string2"] }. \n\nExam: ${JSON.stringify(rec.exam)}\n\nAnswers: ${JSON.stringify(answers)}`;
+    const aiRaw = await callGemini(gradePrompt);
+    if (aiRaw) {
+      const parsed = extractJsonFromText(aiRaw);
+      if (parsed && parsed.total !== undefined && parsed.scores && parsed.feedback) {
+        gradeRes = parsed;
+      }
+    }
+    if (!gradeRes) {
+        throw new Error("Failed to get valid grading from AI.");
+    }
+  } catch(e) {
+    console.warn('AI grading error', e);
+    toast('AI grading service failed. Please try again later.', 4000);
+    document.getElementById('submitExamBtn').disabled = false;
+    return;
+  }
+
+  rec.result = gradeRes;
+  rec.gradedAt = new Date().toISOString();
+  program.exams[recordKey] = rec;
+
+  document.getElementById('examModal').style.display = 'none';
+  document.getElementById('submitExamBtn').disabled = false;
+  currentExamContext = null;
+
+  if (isFinal) {
+    toast(`Final Test Scored ${gradeRes.total}%! Congratulations on completing the program.`, 5000);
+    document.getElementById('unitSection').classList.add('hidden');
+    document.getElementById('programCompleteSection').classList.remove('hidden');
+  } else {
+    if (gradeRes.total >= 70) {
+      program.mastery = program.mastery || {};
+      program.mastery[recordKey] = new Date().toISOString();
+      toast(`Scored ${gradeRes.total}% — marked Mastered`);
+      document.getElementById('markMasteredBtn').click(); // Auto-advance on passing
+    } else {
+      toast(`Scored ${gradeRes.total}% — review feedback and try again.`);
+    }
+  }
+  saveProgram(program);
+  updateMasteryUI();
+  if (!isFinal) renderUnit();
+}
+
+/* -------------------------
+   Events
+   -------------------------*/
+document.getElementById('sampleBtn').addEventListener('click', ()=>{
+  const program = {
+    level: 'Certificate', field: 'Sample Field', pacing: 'self-directed',
+    semesters: [{ semester: 1, units: localGenerateCurriculum('Certificate', 'Sample Field').units }],
+    mastery: {}, exams: {}, _cache: {}, generatedAt: new Date().toISOString()
+  };
+  saveProgram(program);
+  saveProgress({ semester: 0, unit: 0 });
+  renderCurriculumOverview(program);
+  toast('Sample program loaded');
+});
+
+document.getElementById('demoOfflineBtn').addEventListener('click', ()=>{
+  const program = {
+    level: 'Diploma', field: 'Data Science', pacing: 'self-directed',
+    semesters: [{ semester: 1, units: localGenerateCurriculum('Diploma', 'Data Science').units }],
+    mastery: {}, exams: {}, _cache: {}, generatedAt: new Date().toISOString()
+  };
+  saveProgram(program);
+  saveProgress({ semester: 0, unit: 0 });
+  renderCurriculumOverview(program);
+  toast('Offline demo loaded');
+});
+
+function renderCurriculumOverview(program) {
+  const overviewSection = document.getElementById('overviewSection');
+  const overviewList = document.getElementById('overviewList');
+
+  overviewList.innerHTML = ''; // Clear previous
+
+  program.semesters.forEach(semester => {
+    overviewList.innerHTML += `<h3 style="padding: 10px; background: #f0f4f8; margin-top: 1rem;">Semester ${semester.semester}</h3>`;
+    semester.units.forEach(u => {
+      overviewList.innerHTML += `
+        <div style="padding:10px; border-bottom:1px solid #f3f6fb">
+          <strong>${u.title}</strong>
+          <div class="small">${u.description}</div>
+          <div class="small meta" style="color: var(--accent);">${u.estimatedTime || 'N/A'}</div>
+        </div>
+      `;
+    });
+  });
+
+  document.getElementById('setupSection').style.display = 'none';
+  overviewSection.classList.remove('hidden');
+}
+
+document.getElementById('startBtn').addEventListener('click', async()=>{
+  const level = document.getElementById('programLevel').value;
+  const field = document.getElementById('fieldInput').value.trim();
+  const pacing = document.getElementById('pacingMode').value;
+  if(!field){ alert('Please enter a field of study'); return; }
+
+  const semesterMap = { 'Certificate': 2, 'Diploma': 4, 'Degree': 8, 'Masters': 4, 'PhD': 8 };
+  const numSemesters = semesterMap[level];
+
+  const btn = document.getElementById('startBtn');
+  const apiError = document.getElementById('apiError');
+  btn.disabled = true;
+  btn.innerText = `Generating ${numSemesters}-semester program with AI…`;
+  apiError.style.display = 'none';
+
+  const prompt = `
+Generate a full curriculum for a ${level} program in "${field}".
+The curriculum must be structured into exactly ${numSemesters} semesters.
+The output MUST be a single, valid JSON object with a top-level key "semesters".
+"semesters" should be an array of semester objects.
+
+Each semester object in the array must have two keys:
+1. "semester": The semester number (e.g., 1, 2, 3...).
+2. "units": An array of 3-5 unit objects for that semester.
+
+Each unit object must have the following keys: "id" (unique string, e.g., "s1u1"), "title", "description", "projectExample", "estimatedTime".
+
+Example for a 2-semester program:
+{
+  "semesters": [
+    {
+      "semester": 1,
+      "units": [
+        { "id": "s1u1", "title": "Introduction to ${field}", "description": "Core principles and fundamentals.", "projectExample": "Mini project on core principles.", "estimatedTime": "2 weeks" }
+      ]
+    },
+    {
+      "semester": 2,
+      "units": [
+        { "id": "s2u1", "title": "Advanced ${field} Methods", "description": "Practical application of methods.", "projectExample": "Applied mini-project.", "estimatedTime": "4 weeks" }
+      ]
+    }
+  ]
+}`;
+
+  try {
+    const aiRaw = await callGemini(prompt);
+    if (!aiRaw) throw new Error("API call returned no data.");
+
+    const json = extractJsonFromText(aiRaw);
+    if (!json || !Array.isArray(json.semesters) || json.semesters.length === 0) {
+      console.warn('AI curriculum parse fail', aiRaw);
+      throw new Error("Failed to get a valid curriculum from the AI. The format might be incorrect.");
+    }
+
+    const program = {
+      level,
+      field,
+      pacing,
+      semesters: json.semesters,
+      mastery: {},
+      exams: {},
+      _cache: {},
+      generatedAt: new Date().toISOString()
+    };
+
+    saveProgram(program);
+    saveProgress({ semester: 0, unit: 0 });
+    updateMasteryUI();
+    renderCurriculumOverview(program);
+    toast('AI-powered curriculum generated successfully!');
+
+  } catch (e) {
+    console.error("Failed to generate curriculum:", e);
+    apiError.innerText = 'The AI service is currently unavailable. Please try again later or use the Sample/Offline mode.';
+    apiError.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.innerText = 'Generate Curriculum';
+  }
+});
+
+document.getElementById('startLearningBtn').addEventListener('click', () => {
+  document.getElementById('overviewSection').classList.add('hidden');
+  renderUnit();
+});
+
+// mark mastered & next unit
+document.getElementById('markMasteredBtn').addEventListener('click', () => {
+  const program = loadProgram();
+  const progress = loadProgress();
+  const semester = program.semesters[progress.semester];
+  const unit = semester.units[progress.unit];
+
+  program.mastery[unit.id] = new Date().toISOString();
+
+  const isLastUnitInSemester = progress.unit >= semester.units.length - 1;
+  const isLastSemester = progress.semester >= program.semesters.length - 1;
+
+  if (isLastUnitInSemester && isLastSemester) {
+    document.getElementById('unitSection').classList.add('hidden');
+    document.getElementById('programCompleteSection').remove('hidden');
+  } else if (isLastUnitInSemester) {
+    document.getElementById('unitSection').classList.add('hidden');
+    document.getElementById('semesterCompleteSection').remove('hidden');
+  } else {
+    progress.unit++;
+    saveProgress(progress);
+    renderUnit();
+  }
+
+  saveProgram(program);
+  updateMasteryUI();
+});
+
+document.getElementById('nextSemesterBtn').addEventListener('click', () => {
+    const progress = loadProgress();
+    progress.semester++;
+    progress.unit = 0;
+    saveProgress(progress);
+    renderUnit();
+});
+
+document.getElementById('prevLessonBtn').addEventListener('click', () => {
+  const program = loadProgram();
+  const progress = loadProgress();
+  const unit = program.semesters[progress.semester].units[progress.unit];
+  if (unit.lesson_progress && unit.lesson_progress > 0) {
+    unit.lesson_progress--;
+    saveProgram(program);
+    renderCurrentLesson();
+  } else {
+    toast('Already at beginning of unit');
+  }
+});
+
+document.getElementById('nextLessonBtn').addEventListener('click', () => {
+  const program = loadProgram();
+  const progress = loadProgress();
+  const unit = program.semesters[progress.semester].units[progress.unit];
+  unit.lesson_progress = (unit.lesson_progress || 0) + 1;
+  saveProgram(program);
+  renderCurrentLesson();
+});
+
+document.getElementById('skipLessonBtn').addEventListener('click', () => {
+  const program = loadProgram();
+  const progress = loadProgress();
+  const unit = program.semesters[progress.semester].units[progress.unit];
+  unit.lesson_progress = (unit.lesson_progress || 0) + 1;
+  saveProgram(program);
+  renderCurrentLesson();
+});
+
+document.getElementById('collapseBtn').addEventListener('click', ()=>{ document.getElementById('explanationHTML').innerHTML='(Explanation collapsed)'; });
+
+// exam controls
+document.getElementById('takeExamBtn').addEventListener('click', ()=>openExamModal());
+document.getElementById('cancelExamBtn').addEventListener('click', ()=>{ document.getElementById('examModal').style.display='none'; currentExamContext = null; });
+document.getElementById('submitExamBtn').addEventListener('click', ()=>{ if(confirm('Submit exam for grading?')) submitExam(); });
+
+document.getElementById('viewFeedbackBtn').addEventListener('click', ()=>{
+  const progress = loadProgress();
+  const program = loadProgram();
+  if (!program) return;
+  const unit = program.semesters[progress.semester]?.units[progress.unit];
+  if (!unit) return;
+
+  const rec = program.exams && program.exams[unit.id];
+  if(!rec || !rec.result) return alert('No feedback yet');
+
+  const res = rec.result;
+  const feedbackText = Object.entries(res.feedback || {}).map(([qId, feedback]) => {
+    const question = rec.exam?.questions?.find(q => q.id === qId)?.question || qId;
+    return `Question: ${question}\nFeedback: ${feedback}`;
+  }).join('\n\n');
+
+  alert(`Score: ${res.total}%\n\n--- FEEDBACK ---\n${feedbackText}\n\n--- NEXT STEPS ---\n- ${res.nextSteps?.join('\n- ') || 'Review the material and try again.'}`);
+});
+
+// export & clear
+document.getElementById('exportBtn').addEventListener('click', ()=>{ const program = loadProgram(); if(!program) return alert('No program'); const blob = new Blob([JSON.stringify(program,null,2)],{type:'application/json'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download = `${program.field||'program'}_mastery.json`; a.click(); });
+
+document.getElementById('clearBtn').addEventListener('click', ()=>{ if(!confirm('Clear local program & progress?')) return; remove(STORAGE_KEY); remove(PROGRESS_KEY); location.reload(); });
+
+// keyboard shortcuts
+window.addEventListener('keydown',(e)=>{ if(e.key==='n'){ document.getElementById('nextLessonBtn').click(); } if(e.key==='p'){ document.getElementById('prevLessonBtn').click(); } });
+
+// initial restore
+window.addEventListener('DOMContentLoaded', ()=>{
+  const program = loadProgram();
+  if (program && program.semesters && program.semesters.length > 0) {
+    document.getElementById('setupSection').style.display = 'none';
+    renderUnit();
+    updateMasteryUI();
+  }
+});
+</script>
 </body>
 </html>

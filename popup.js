@@ -1,67 +1,71 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.onload = function() {
     const modal = document.getElementById("popup-modal");
-    const closeButton = document.getElementsByClassName("close-button")[0];
+    if (!modal) {
+        console.error("Popup modal not found!");
+        return;
+    }
+
+    const closeButton = modal.querySelector(".close-button");
+    if (!closeButton) {
+        console.error("Close button not found inside modal!");
+        return;
+    }
+
     const popupContent = document.getElementById("popup-content");
+    if (!popupContent) {
+        console.error("Popup content area not found!");
+        return;
+    }
 
     const quotes = [
-        {
-            quote: "The beautiful thing about learning is that no one can take it away from you.",
-            author: "B.B. King"
-        },
-        {
-            quote: "Education is the most powerful weapon which you can use to change the world.",
-            author: "Nelson Mandela"
-        },
-        {
-            quote: "Live as if you were to die tomorrow. Learn as if you were to live forever.",
-            author: "Mahatma Gandhi"
-        },
-        {
-            quote: "The expert in anything was once a beginner.",
-            author: "Helen Hayes"
-        },
-        {
-            quote: "The only thing that interferes with my learning is my education.",
-            author: "Albert Einstein"
-        }
+        { quote: "The beautiful thing about learning is that no one can take it away from you.", author: "B.B. King" },
+        { quote: "Education is the most powerful weapon which you can use to change the world.", author: "Nelson Mandela" },
+        { quote: "Live as if you were to die tomorrow. Learn as if you were to live forever.", author: "Mahatma Gandhi" },
+        { quote: "The expert in anything was once a beginner.", author: "Helen Hayes" },
+        { quote: "The only thing that interferes with my learning is my education.", author: "Albert Einstein" }
     ];
 
     let quoteInterval;
 
     function showPopup() {
-        if (!sessionStorage.getItem('popupShown')) {
+        // Use try-catch for sessionStorage in case of security restrictions
+        try {
+            if (!sessionStorage.getItem('popupShown')) {
+                setTimeout(() => {
+                    modal.style.display = "block";
+                    sessionStorage.setItem('popupShown', 'true');
+                    setTimeout(startQuoteCycle, 10000);
+                }, 3000);
+            }
+        } catch (e) {
+            console.error("Session storage is not available.", e);
+            // Fallback behavior: just show the popup without session storage logic
             setTimeout(() => {
                 modal.style.display = "block";
-                sessionStorage.setItem('popupShown', 'true');
-
-                // Start cycling quotes after 10 seconds
                 setTimeout(startQuoteCycle, 10000);
-            }, 3000); // Show initial popup after 3 seconds
+            }, 3000);
         }
     }
 
     function startQuoteCycle() {
         let quoteIndex = 0;
-
         function displayNextQuote() {
             if (modal.style.display !== "block") {
-                clearInterval(quoteInterval);
+                if (quoteInterval) clearInterval(quoteInterval);
                 return;
             }
-            popupContent.innerHTML = `
-                <h2 style="font-style: italic;">"${quotes[quoteIndex].quote}"</h2>
-                <p>- ${quotes[quoteIndex].author}</p>
-            `;
+            popupContent.innerHTML = `<h2 style="font-style: italic;">"${quotes[quoteIndex].quote}"</h2><p>- ${quotes[quoteIndex].author}</p>`;
             quoteIndex = (quoteIndex + 1) % quotes.length;
         }
-
-        displayNextQuote(); // Show the first quote immediately
-        quoteInterval = setInterval(displayNextQuote, 5000); // Change quote every 5 seconds
+        displayNextQuote();
+        quoteInterval = setInterval(displayNextQuote, 5000);
     }
 
     function closeModal() {
         modal.style.display = "none";
-        clearInterval(quoteInterval);
+        if (quoteInterval) {
+            clearInterval(quoteInterval);
+        }
     }
 
     closeButton.onclick = closeModal;
@@ -72,4 +76,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     showPopup();
-});
+};

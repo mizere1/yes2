@@ -1555,6 +1555,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
     
+    const viewCoursesBtn = document.getElementById('view-courses-btn');
+    const coursesTable = document.getElementById('courses-table');
+
+    if (viewCoursesBtn && coursesTable) {
+        viewCoursesBtn.addEventListener('click', () => {
+            if (auth.currentUser) {
+                coursesTable.classList.remove('hidden');
+                viewCoursesBtn.style.display = 'none'; // Hide the button after click
+            } else {
+                alert("Please log in to view and enroll in courses.");
+            }
+        });
+    }
+
     // Ensure sample data exists on initial load
     await ensureSampleDataIsPopulated(); 
     console.log("DOMContentLoaded: END"); 

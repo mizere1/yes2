@@ -69,25 +69,6 @@
             </div>
         </section>
 
-        <section id="all-courses">
-            <div class="container">
-                <h2>Available Courses</h2>
-                <table id="courses-table" class="hidden">
-                    <thead>
-                        <tr>
-                            <th>Course Title</th>
-                            <th>Course Code</th>
-                            <th>Credits</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="courses-container">
-                        <!-- Courses will be dynamically loaded here by app.js -->
-                    </tbody>
-                </table>
-                <button id="view-courses-btn" class="btn">View Available Programmes/Courses</button>
-            </div>
-        </section>
 
         <section class="apply-now">
             <div class="container">
@@ -103,6 +84,28 @@
             </div>
         </section>
     </main>
+
+    <!-- Education Advisor Chat Launcher -->
+    <div id="chat-launcher" class="chat-launcher">
+        <img src="https://img.icons8.com/color/48/000000/chat--v1.png" alt="Chat"/>
+    </div>
+
+    <!-- Education Advisor Chat Window -->
+    <div id="advisor-chat-window" class="chat-window-floating hidden">
+        <div class="chat-header">
+            <h3>Education Advisor</h3>
+            <span id="close-chat" class="close-chat-button">&times;</span>
+        </div>
+        <div id="chat-messages" class="chat-messages">
+            <div class="message bot-message">
+                <p>Hello! I'm your Education Advisor. Tell me a little about your educational background and what you'd like to achieve, and I'll recommend a path for you.</p>
+            </div>
+        </div>
+        <form id="chat-form" class="chat-input-form">
+            <input type="text" id="chat-input" placeholder="Type your message..." autocomplete="off">
+            <button type="submit" class="btn">Send</button>
+        </form>
+    </div>
 
     <!-- The Modal -->
     <div id="popup-modal" class="modal">
@@ -127,5 +130,6 @@
     <script type="module" src="app.js"></script>
     <script src="slider.js"></script>
     <script src="popup.js"></script>
+    <script src="ai-advisor.js"></script>
 </body>
 </html>

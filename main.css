@@ -94,6 +94,7 @@ header nav ul li a:hover {
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5); /* Dark overlay for text readability */
+    overflow: hidden; /* For marquee effect */
 }
 
 .hero h1 {
@@ -251,4 +252,67 @@ footer {
     .hero h1 {
         font-size: 2rem;
     }
+}
+
+/* Marquee animation for hero text */
+.typewriter {
+    white-space: nowrap;
+    display: inline-block;
+    animation: marquee 30s linear infinite;
+    padding-left: 100%; /* Start off screen */
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-200%); /* Adjust to ensure it goes fully off screen */
+    }
+}
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 500px;
+    text-align: center;
+    border-radius: 10px;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
